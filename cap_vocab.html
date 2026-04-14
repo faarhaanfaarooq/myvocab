@@ -1,0 +1,3149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vocabulary Flashcards – Word List 1/4</title>
+    <style>
+      :root {
+        --bg-color: #f4f6fb;
+        --text-color: #222;
+        --header-bg: #2d3a8c;
+        --header-text: #fff;
+        --card-bg: #fff;
+        --card-border: #e0e4f0;
+        --primary-color: #2d3a8c;
+        --primary-hover: #1e2a6a;
+        --secondary-bg: #e8eaf6;
+        --secondary-text: #2d3a8c;
+        --secondary-hover: #c5cae9;
+        --control-bg: #fff;
+        --input-border: #c8cfe8;
+        --muted-text: #666;
+        --shadow-color: rgba(45, 58, 140, 0.1);
+        --quiz-opt-bg: #f4f6fb;
+        --quiz-opt-border: #c5cae9;
+      }
+
+      [data-theme="dark"] {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --header-bg: #1f1f1f;
+        --header-text: #bb86fc;
+        --card-bg: #1e1e1e;
+        --card-border: #333;
+        --primary-color: #bb86fc;
+        --primary-hover: #a370f7;
+        --secondary-bg: #2c2c2c;
+        --secondary-text: #bb86fc;
+        --secondary-hover: #3e3e3e;
+        --control-bg: #1e1e1e;
+        --input-border: #444;
+        --muted-text: #aaa;
+        --shadow-color: rgba(0, 0, 0, 0.5);
+        --quiz-opt-bg: #1e1e1e;
+        --quiz-opt-border: #444;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      header {
+        background: var(--header-bg);
+        color: var(--header-text);
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      header h1 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      header span {
+        font-size: 0.9rem;
+        opacity: 0.85;
+      }
+      .theme-toggle {
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .controls {
+        background: var(--control-bg);
+        padding: 14px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .controls input[type="text"] {
+        flex: 1;
+        min-width: 180px;
+        padding: 8px 12px;
+        border: 1px solid var(--input-border);
+        border-radius: 8px;
+        font-size: 0.92rem;
+        background: var(--control-bg);
+        color: var(--text-color);
+      }
+      .controls select {
+        padding: 8px 12px;
+        border: 1px solid var(--input-border);
+        border-radius: 8px;
+        font-size: 0.92rem;
+        background: var(--control-bg);
+        color: var(--text-color);
+      }
+      .btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: background 0.15s;
+      }
+      .btn-primary {
+        background: var(--primary-color);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+      .btn-secondary {
+        background: var(--secondary-bg);
+        color: var(--secondary-text);
+      }
+      .btn-secondary:hover {
+        background: var(--secondary-hover);
+      }
+      .btn-danger {
+        background: #e53935;
+        color: #fff;
+      }
+      .progress-bar {
+        height: 5px;
+        background: var(--card-border);
+      }
+      .progress-fill {
+        height: 5px;
+        background: var(--primary-color);
+        transition: width 0.3s;
+      }
+
+      /* FLASHCARD MODE */
+      #flashcard-section {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        padding: 30px 16px;
+      }
+      .fc-counter {
+        font-size: 0.9rem;
+        color: var(--muted-text);
+        margin-bottom: 18px;
+      }
+      .card-wrap {
+        perspective: 1000px;
+        width: 100%;
+        max-width: 520px;
+        height: 300px;
+        cursor: pointer;
+      }
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+      }
+      .card-wrap.flipped .card-inner {
+        transform: rotateY(180deg);
+      }
+      .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        padding: 30px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 4px 24px var(--shadow-color);
+      }
+      .card-front {
+        background: linear-gradient(135deg, #2d3a8c, #5c6bc0);
+        color: #fff;
+      }
+      [data-theme="dark"] .card-front {
+        background: linear-gradient(135deg, #3700b3, #6200ee);
+      }
+      .card-back {
+        background: var(--card-bg);
+        transform: rotateY(180deg);
+        border: 2px solid var(--card-border);
+      }
+      .card-num {
+        font-size: 0.78rem;
+        opacity: 0.7;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+      .card-word {
+        font-size: 2.1rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .card-hint {
+        font-size: 0.85rem;
+        opacity: 0.75;
+      }
+      .card-bengali {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+      }
+      .card-synonyms {
+        font-size: 0.85rem;
+        color: var(--muted-text);
+        margin-bottom: 10px;
+      }
+      .card-sentence {
+        font-size: 0.92rem;
+        color: var(--text-color);
+        line-height: 1.5;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 10px;
+        font-style: italic;
+      }
+      .fc-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 22px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* LIST/TABLE MODE */
+      #list-section {
+        padding: 20px;
+        display: none;
+      }
+      .word-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px;
+      }
+      .word-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 16px 18px;
+        border: 1px solid var(--card-border);
+        transition: box-shadow 0.2s;
+      }
+      .word-card:hover {
+        box-shadow: 0 4px 16px var(--shadow-color);
+      }
+      .wc-top {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .wc-num {
+        font-size: 0.75rem;
+        color: var(--muted-text);
+        min-width: 28px;
+      }
+      .wc-word {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+      .wc-bengali {
+        font-size: 0.88rem;
+        color: #e65100;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      [data-theme="dark"] .wc-bengali {
+        color: #ffb74d;
+      }
+      .wc-synonyms {
+        font-size: 0.78rem;
+        color: var(--muted-text);
+        margin-bottom: 5px;
+      }
+      .wc-sentence {
+        font-size: 0.82rem;
+        color: var(--text-color);
+        font-style: italic;
+        line-height: 1.4;
+        border-left: 2px solid var(--secondary-hover);
+        padding-left: 8px;
+      }
+
+      /* QUIZ MODE */
+      #quiz-section {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        padding: 30px 16px;
+      }
+      .quiz-box {
+        background: var(--card-bg);
+        border-radius: 18px;
+        padding: 28px;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 4px 24px var(--shadow-color);
+      }
+      .quiz-q {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .quiz-sub {
+        font-size: 0.85rem;
+        color: var(--muted-text);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .quiz-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .quiz-opt {
+        padding: 12px 14px;
+        border: 1.5px solid var(--quiz-opt-border);
+        border-radius: 10px;
+        background: var(--quiz-opt-bg);
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 0.92rem;
+        text-align: center;
+        transition: all 0.15s;
+      }
+      .quiz-opt:hover {
+        background: var(--secondary-bg);
+        border-color: var(--primary-color);
+      }
+      .quiz-opt.correct {
+        background: #e8f5e9;
+        border-color: #43a047;
+        color: #2e7d32;
+      }
+      [data-theme="dark"] .quiz-opt.correct {
+        background: #1b5e20;
+        border-color: #2e7d32;
+        color: #e8f5e9;
+      }
+      .quiz-opt.wrong {
+        background: #ffebee;
+        border-color: #e53935;
+        color: #c62828;
+      }
+      [data-theme="dark"] .quiz-opt.wrong {
+        background: #b71c1c;
+        border-color: #c62828;
+        color: #ffebee;
+      }
+      .quiz-score {
+        font-size: 1rem;
+        color: var(--muted-text);
+        margin: 14px 0 0;
+        text-align: center;
+      }
+
+      #mode-tabs {
+        display: flex;
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--card-border);
+      }
+      .tab {
+        flex: 1;
+        padding: 12px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: var(--muted-text);
+        border-bottom: 3px solid transparent;
+        transition: all 0.15s;
+      }
+      .tab.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+      }
+      .tab:hover {
+        background: var(--quiz-opt-bg);
+      }
+
+      .no-result {
+        padding: 40px;
+        text-align: center;
+        color: var(--muted-text);
+        font-size: 1rem;
+      }
+      .stats-bar {
+        display: flex;
+        gap: 16px;
+        padding: 10px 20px;
+        background: var(--secondary-bg);
+        font-size: 0.82rem;
+        color: var(--primary-color);
+        flex-wrap: wrap;
+      }
+      .stats-bar span {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>📚 Vocabulary Flashcards — Word List 1/4</h1>
+      <div style="display: flex; align-items: center; gap: 15px">
+        <div
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          title="Toggle Dark/Light Mode"
+        >
+          <span id="theme-icon">🌙</span>
+        </div>
+        <span id="header-count">343 words</span>
+      </div>
+    </header>
+
+    <div id="mode-tabs">
+      <div class="tab active" onclick="switchMode('flashcard')">
+        🃏 Flashcards
+      </div>
+      <div class="tab" onclick="switchMode('list')">📋 Word List</div>
+      <div class="tab" onclick="switchMode('quiz')">🧠 Quiz</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+
+    <!-- FLASHCARD MODE -->
+    <div id="flashcard-section">
+      <div class="stats-bar">
+        <div>Total: <span>343</span></div>
+        <div>Seen: <span id="fc-seen">0</span></div>
+        <div>Remaining: <span id="fc-remaining">343</span></div>
+      </div>
+      <br />
+      <div class="fc-counter" id="fc-counter">Card 1 of 343</div>
+      <div class="card-wrap" id="card-wrap" onclick="flipCard()">
+        <div class="card-inner" id="card-inner">
+          <div class="card-face card-front">
+            <div class="card-num" id="cf-num"></div>
+            <div class="card-word" id="cf-word"></div>
+            <div class="card-hint">👆 Click to reveal meaning</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-num" id="cb-num"></div>
+            <div class="card-bengali" id="cb-bengali"></div>
+            <div class="card-synonyms" id="cb-synonyms"></div>
+            <div class="card-sentence" id="cb-sentence"></div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-actions">
+        <button class="btn btn-secondary" onclick="prevCard()">← Prev</button>
+        <button class="btn btn-primary" onclick="flipCard()">Flip</button>
+        <button class="btn btn-secondary" onclick="nextCard()">Next →</button>
+        <button class="btn btn-danger" onclick="shuffleCards()">
+          🔀 Shuffle
+        </button>
+      </div>
+    </div>
+
+    <!-- LIST MODE -->
+    <div id="list-section">
+      <div class="controls">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="🔍 Search word or Bengali meaning..."
+          oninput="filterWords()"
+        />
+        <select id="sort-select" onchange="filterWords()">
+          <option value="default">Sort: Default</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+        </select>
+      </div>
+      <br />
+      <div class="word-grid" id="word-grid"></div>
+      <div class="no-result" id="no-result" style="display: none">
+        No words found.
+      </div>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quiz-section">
+      <div class="quiz-box">
+        <div class="quiz-q" id="quiz-q"></div>
+        <div class="quiz-sub" id="quiz-sub">
+          Choose the correct Bengali meaning:
+        </div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-score" id="quiz-score"></div>
+        <br />
+        <div style="display: flex; gap: 10px; justify-content: center">
+          <button class="btn btn-primary" onclick="nextQuiz()">
+            Next Question →
+          </button>
+          <button class="btn btn-secondary" onclick="resetQuiz()">
+            Reset Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute("data-theme");
+        const targetTheme = currentTheme === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", targetTheme);
+        const icon = document.getElementById("theme-icon");
+        icon.innerText = targetTheme === "dark" ? "☀️" : "🌙";
+        localStorage.setItem("vocab-theme", targetTheme);
+      }
+
+      // Load theme on startup
+      (function () {
+        const savedTheme = localStorage.getItem("vocab-theme");
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+          const icon = document.getElementById("theme-icon");
+          if (icon) icon.innerText = savedTheme === "dark" ? "☀️" : "🌙";
+        } else if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          // Optional: auto-dark mode based on system preference
+          // document.documentElement.setAttribute('data-theme', 'dark');
+          // if (icon) icon.innerText = '☀️';
+        }
+      })();
+
+      const words = [
+        {
+          n: 1,
+          w: "Abate",
+          b: "হ্রাস পাওয়া / কমে যাওয়া",
+          s: "Slack Off/ Decrease/ Diminish/ Slacken",
+          e: "The storm finally began to abate after three days of heavy rain.",
+        },
+        {
+          n: 2,
+          w: "Aberrant",
+          b: "অস্বাভাবিক / বিচ্যুত",
+          s: "Abnormal/ Deviant/ Stray",
+          e: "His aberrant behaviour at the meeting shocked all his colleagues.",
+        },
+        {
+          n: 3,
+          w: "Abhor",
+          b: "ঘৃণা করা / বিদ্বেষ করা",
+          s: "Hate/ Detest/ Despise/ Loathe",
+          e: "She abhors violence and refuses to watch any action movies.",
+        },
+        {
+          n: 4,
+          w: "Abhorrent",
+          b: "মনের কাছে আপত্তিজনক / ঘৃণ্য",
+          s: "Offensive/ Obscene/ Repugnant/ Repulsive",
+          e: "Cruelty to animals is abhorrent to every decent person.",
+        },
+        {
+          n: 5,
+          w: "Abortive",
+          b: "ব্যর্থ / নিষ্ফল",
+          s: "Unsuccessful/ Bungled/ Failed",
+          e: "The rescue team made an abortive attempt to reach the trapped miners.",
+        },
+        {
+          n: 6,
+          w: "Abounded",
+          b: "প্রচুর ছিল / ভরপুর ছিল",
+          s: "Plentiful/ Abundant/ Ample/ Plethoric",
+          e: "The forest abounded with rare birds and colourful butterflies.",
+        },
+        {
+          n: 7,
+          w: "Abscond",
+          b: "পালিয়ে যাওয়া / চম্পট দেওয়া",
+          s: "Flee/ Escape/ Run Away/ Run Off",
+          e: "The thief absconded with all the jewellery before the police arrived.",
+        },
+        {
+          n: 8,
+          w: "Abstemious",
+          b: "সংযমী / মিতাচারী",
+          s: "Self-Restrained/ Moderate/ Frugal",
+          e: "He lived an abstemious life, eating only simple food and drinking only water.",
+        },
+        {
+          n: 9,
+          w: "Abstruse",
+          b: "জটিল / দুর্বোধ্য",
+          s: "Complex/ Perplex/ Recondite/ Difficult",
+          e: "The professor's lecture was so abstruse that most students fell asleep.",
+        },
+        {
+          n: 10,
+          w: "Accede",
+          b: "সম্মত হওয়া / রাজি হওয়া",
+          s: "Agree/ Consent/ Acquiesce/ Comply",
+          e: "After long negotiations, the company acceded to the workers' demands.",
+        },
+        {
+          n: 11,
+          w: "Accentuate",
+          b: "জোর দেওয়া / গুরুত্ব বাড়ানো",
+          s: "Emphasize/ Underline/ Highlight",
+          e: "The new lighting in the room accentuated the beauty of the painting.",
+        },
+        {
+          n: 12,
+          w: "Accolade",
+          b: "পুরস্কার / প্রশংসা",
+          s: "Award/ Honour/ Praise/ Complement",
+          e: "The young scientist received the highest accolade at the national conference.",
+        },
+        {
+          n: 13,
+          w: "Ached",
+          b: "আকাঙ্ক্ষা করা / গভীরভাবে চাওয়া",
+          s: "Yearned/ Wished/ Longed/ Hankered",
+          e: "She ached for the days when her family was all together.",
+        },
+        {
+          n: 14,
+          w: "Acquiesce",
+          b: "মেনে নেওয়া / নীরবে সম্মত হওয়া",
+          s: "Agree/ Consent/ Accede/ Comply",
+          e: "He acquiesced to his parents' wishes and studied medicine.",
+        },
+        {
+          n: 15,
+          w: "Acuity",
+          b: "তীক্ষ্ণতা / বুদ্ধির ধার",
+          s: "Sharpness/ Keenness/ Perspicacity",
+          e: "Her mental acuity allowed her to solve the puzzle in minutes.",
+        },
+        {
+          n: 16,
+          w: "Acumen",
+          b: "তীক্ষ্ণ বুদ্ধি / বিচক্ষণতা",
+          s: "Discernment/ Shrewdness/ Astute/ Perspicacity",
+          e: "His business acumen helped him build a successful company from scratch.",
+        },
+        {
+          n: 17,
+          w: "Adduce",
+          b: "প্রমাণ হিসেবে উল্লেখ করা / উদ্ধৃত করা",
+          s: "Cite/ Abduce/ Reference",
+          e: "The lawyer adduced several witnesses to prove his client's innocence.",
+        },
+        {
+          n: 18,
+          w: "Advent",
+          b: "আগমন / শুরু",
+          s: "Arrival/ Emergence/ Beginning",
+          e: "The advent of the internet changed the way people communicate.",
+        },
+        {
+          n: 19,
+          w: "Adversary",
+          b: "প্রতিপক্ষ / শত্রু",
+          s: "Opponent/ Antagonist/ Competitor/ Rival",
+          e: "Despite being adversaries in court, the two lawyers respected each other.",
+        },
+        {
+          n: 20,
+          w: "Affable",
+          b: "বন্ধুত্বপূর্ণ / মিষ্টভাষী",
+          s: "Amiable/ Genial/ Cordial/ Friendly",
+          e: "The affable shopkeeper always greeted his customers with a warm smile.",
+        },
+        {
+          n: 21,
+          w: "Affinity",
+          b: "আগ্রহ / আকর্ষণ / ঝোঁক",
+          s: "Adherence/ Attraction/ Inclination",
+          e: "She has a natural affinity for mathematics and solves sums effortlessly.",
+        },
+        {
+          n: 22,
+          w: "Affluent",
+          b: "ধনী / সমৃদ্ধ",
+          s: "Wealthy/ Prosperous/ Opulent",
+          e: "The affluent neighbourhood had large houses with beautiful gardens.",
+        },
+        {
+          n: 23,
+          w: "Agglomeration",
+          b: "স্তূপ / সংগ্রহ / গাদা",
+          s: "Amass/ Pile up/ Store",
+          e: "An agglomeration of old furniture was piled up in the corner of the room.",
+        },
+        {
+          n: 24,
+          w: "Aggrandize",
+          b: "অতিরঞ্জিত করা / বড় করে দেখানো",
+          s: "Exaggerate/ Embellish/ Inflate",
+          e: "The politician tried to aggrandize his achievements to win more votes.",
+        },
+        {
+          n: 25,
+          w: "Aggravate",
+          b: "আরও খারাপ করা / বিরক্ত করা",
+          s: "Worsen/ Exacerbate/ Exasperate",
+          e: "Scratching the wound only aggravated the infection further.",
+        },
+        {
+          n: 26,
+          w: "Aggregate",
+          b: "মোট / সমষ্টি",
+          s: "Total/ Combine/ Cumulative",
+          e: "The aggregate score of all three rounds will decide the winner.",
+        },
+        {
+          n: 27,
+          w: "Agility",
+          b: "চটপটেভাব / ক্ষিপ্রতা",
+          s: "Liveliness/ Nimbleness/ Dexterity",
+          e: "The gymnast's agility amazed the entire audience with her performance.",
+        },
+        {
+          n: 28,
+          w: "Akin",
+          b: "একই ধরনের / সদৃশ",
+          s: "Similar/ Alike/ Agnate",
+          e: "His love of music is akin to his father's passion for playing the guitar.",
+        },
+        {
+          n: 29,
+          w: "Alienate",
+          b: "আলাদা করে দেওয়া / দূরে সরিয়ে দেওয়া",
+          s: "Estrange/ Isolate/ Distance",
+          e: "His rude behaviour alienated all his friends one by one.",
+        },
+        {
+          n: 30,
+          w: "Altruism",
+          b: "পরার্থপরতা / নিঃস্বার্থতা",
+          s: "Selflessness/ Benevolence/ Generosity",
+          e: "Mother Teresa's altruism inspired millions of people around the world.",
+        },
+        {
+          n: 31,
+          w: "Ambiguity",
+          b: "অস্পষ্টতা / দ্বৈততা",
+          s: "Vagueness/ Opacity/ Obscurity",
+          e: "The ambiguity in the contract led to a legal dispute between the two parties.",
+        },
+        {
+          n: 32,
+          w: "Ambivalent",
+          b: "দোদুল্যমান / দ্বিধাগ্রস্ত",
+          s: "Uncertain/ Indecisive/ Undecided",
+          e: "She felt ambivalent about moving abroad — excited yet frightened.",
+        },
+        {
+          n: 33,
+          w: "Ambrosia",
+          b: "স্বর্গীয় খাদ্য / অমৃত",
+          s: "Nectar/ Divine food",
+          e: "The mango dessert was so delicious that it tasted like ambrosia.",
+        },
+        {
+          n: 34,
+          w: "Ameliorate",
+          b: "উন্নত করা / আরও ভালো করা",
+          s: "Amend/ Improve/ Better",
+          e: "The new policy was introduced to ameliorate the living conditions of the poor.",
+        },
+        {
+          n: 35,
+          w: "Amenable",
+          b: "সহযোগী / অনুগত / রাজি",
+          s: "Cooperative/ Compliant/ Accommodating",
+          e: "He was amenable to suggestions and quickly made the necessary changes.",
+        },
+        {
+          n: 36,
+          w: "Amity",
+          b: "বন্ধুত্ব / সৌহার্দ্য",
+          s: "Friendliness/ Cordiality/ Harmony",
+          e: "The two neighbouring countries maintained a long relationship of amity.",
+        },
+        {
+          n: 37,
+          w: "Anathema",
+          b: "অভিশাপ / তীব্র নিন্দা",
+          s: "Curse/ Malediction/ Execration",
+          e: "Dishonesty is anathema to him — he cannot tolerate it at all.",
+        },
+        {
+          n: 38,
+          w: "Anemic",
+          b: "শক্তিহীন / ফ্যাকাশে / রক্তশূন্য",
+          s: "Lacking vigor/ Pale/ Wan/ Dim",
+          e: "After months of overwork, she looked pale and anemic.",
+        },
+        {
+          n: 39,
+          w: "Angst",
+          b: "উদ্বেগ / উৎকণ্ঠা",
+          s: "Anxiety/ Anguish/ Worry",
+          e: "Teenagers often experience a deep sense of angst about their future.",
+        },
+        {
+          n: 40,
+          w: "Anguished",
+          b: "বেদনাপূর্ণ / যন্ত্রণাকাতর",
+          s: "Pained/ Tormented/ Distressed",
+          e: "The mother let out an anguished cry when she heard the terrible news.",
+        },
+        {
+          n: 41,
+          w: "Angularity",
+          b: "কোণযুক্ততা / কুটিলতা",
+          s: "Tortuosity/ Intricacy/ Sharpness",
+          e: "The angularity of his face gave him a stern and serious appearance.",
+        },
+        {
+          n: 42,
+          w: "Anomaly",
+          b: "অসংগতি / অস্বাভাবিকতা",
+          s: "Irregularity/ Inconsistency/ Aberration",
+          e: "Scientists found an anomaly in the data that they could not explain.",
+        },
+        {
+          n: 43,
+          w: "Antics",
+          b: "হাস্যকর বা উদ্ভট আচরণ / কৌতুকপূর্ণ কাজ",
+          s: "Capers/ Pranks/ Larks",
+          e: "The clown's antics made all the children burst into laughter.",
+        },
+        {
+          n: 44,
+          w: "Antiquated",
+          b: "পুরনো ধাঁচের / সেকেলে",
+          s: "Outdated/ Old fashioned/ Archaic",
+          e: "The office still used antiquated computers that took minutes to start.",
+        },
+        {
+          n: 45,
+          w: "Apathy",
+          b: "উদাসীনতা / নিস্পৃহতা",
+          s: "Indifference/ Spiritless/ Nonchalance",
+          e: "Voter apathy is a serious problem in many democratic countries.",
+        },
+        {
+          n: 46,
+          w: "Apocalyptic",
+          b: "সর্বনাশাত্মক / ধ্বংসাত্মক",
+          s: "Annihilating/ Armageddon/ Catastrophic",
+          e: "The film painted an apocalyptic picture of the world after nuclear war.",
+        },
+        {
+          n: 47,
+          w: "Apocryphal",
+          b: "সন্দেহজনক / কাল্পনিক",
+          s: "Suspicious/ Questionable/ Fictitious",
+          e: "The story of his heroic past seems apocryphal — no one can verify it.",
+        },
+        {
+          n: 48,
+          w: "Apostate",
+          b: "ধর্মত্যাগী / বিশ্বাসত্যাগী",
+          s: "Renegade/ Deserter/ Turncoat",
+          e: "He was considered an apostate by his community after he changed his faith.",
+        },
+        {
+          n: 49,
+          w: "Apparition",
+          b: "ভূতের মতো আচমকা আগমন / প্রেতাত্মা",
+          s: "Phantom/ Ghost/ Specter",
+          e: "A strange apparition appeared before him in the dark corridor at midnight.",
+        },
+        {
+          n: 50,
+          w: "Apprehend",
+          b: "বোঝা / গ্রেফতার করা",
+          s: "Understand/ Comprehend/ Arrest",
+          e: "The police managed to apprehend the suspect at the airport.",
+        },
+        {
+          n: 51,
+          w: "Apprehension",
+          b: "আশংকা / ভয়",
+          s: "Fear/ Fright/ Anxiety/ Agitation",
+          e: "She felt a sense of apprehension before entering the examination hall.",
+        },
+        {
+          n: 52,
+          w: "Apropos",
+          b: "প্রাসঙ্গিক / উপযুক্ত",
+          s: "Relevant/ Appropriate/ Suitable",
+          e: "His comment was very apropos and added great value to the discussion.",
+        },
+        {
+          n: 53,
+          w: "Apt",
+          b: "উপযুক্ত / যোগ্য / প্রাসঙ্গিক",
+          s: "Relevant/ Appropriate/ Fitting",
+          e: "She chose an apt example to explain the complex concept to her students.",
+        },
+        {
+          n: 54,
+          w: "Arbiter",
+          b: "মীমাংসাকারী / সালিশকারী",
+          s: "Conciliator/ Mediator/ Judge",
+          e: "The retired judge served as an arbiter to settle the business dispute.",
+        },
+        {
+          n: 55,
+          w: "Ardent",
+          b: "উৎসাহী / আবেগপ্রবণ",
+          s: "Passionate/ Fervent/ Enthusiastic",
+          e: "She is an ardent supporter of environmental conservation.",
+        },
+        {
+          n: 56,
+          w: "Armistice",
+          b: "যুদ্ধবিরতি / সংঘর্ষবিরতি",
+          s: "Ceasefire/ Truce/ Suspension",
+          e: "The two countries agreed to an armistice after years of bloody warfare.",
+        },
+        {
+          n: 57,
+          w: "Arrant",
+          b: "সম্পূর্ণ / নিরেট / খাঁটি",
+          s: "Complete/ Total/ Absolute/ Outright",
+          e: "That excuse is arrant nonsense and nobody in the room believed it.",
+        },
+        {
+          n: 58,
+          w: "Articulate",
+          b: "স্পষ্টভাবে বলা / বাগ্মী",
+          s: "Eloquent/ Coherent/ Persuasive/ Lucid",
+          e: "The articulate speaker held the audience's attention for over an hour.",
+        },
+        {
+          n: 59,
+          w: "Ascetic",
+          b: "কঠোর সংযমী / তপস্বী",
+          s: "Austere/ Self-Denial/ Abstinent",
+          e: "The ascetic monk lived in the mountains with very few possessions.",
+        },
+        {
+          n: 60,
+          w: "Assent",
+          b: "অনুমোদন / সম্মতি",
+          s: "Approval/ Consent/ Accede/ Sanction",
+          e: "The principal gave her assent to the students' request for an extra holiday.",
+        },
+        {
+          n: 61,
+          w: "Assimilate",
+          b: "হজম করা / একীভূত করা",
+          s: "Imbibe/ Digest/ Ingest/ Take In",
+          e: "It takes time for immigrants to assimilate into a new culture.",
+        },
+        {
+          n: 62,
+          w: "Assortment",
+          b: "বিভিন্ন জিনিসের সমাবেশ / বিবিধ সংগ্রহ",
+          s: "Mixture/ Motley/ Variety",
+          e: "The bakery offered a wide assortment of cakes, pastries and breads.",
+        },
+        {
+          n: 63,
+          w: "Assuage",
+          b: "প্রশমিত করা / শান্ত করা",
+          s: "Soothe/ Mitigate/ Placate/ Alleviate",
+          e: "A cup of warm tea helped assuage her anxiety before the interview.",
+        },
+        {
+          n: 64,
+          w: "Astute",
+          b: "চালাক / বুদ্ধিমান / তীক্ষ্ণবুদ্ধি",
+          s: "Shrewd/ Prudent/ Intelligent",
+          e: "The astute investor sold his shares before the market crashed.",
+        },
+        {
+          n: 65,
+          w: "Atonement",
+          b: "প্রায়শ্চিত্ত / ক্ষমাপ্রার্থনা",
+          s: "Repent/ Expiation/ Regret",
+          e: "He made a public apology as an act of atonement for his past mistakes.",
+        },
+        {
+          n: 66,
+          w: "Atrophy",
+          b: "ক্ষয় হওয়া / শুকিয়ে যাওয়া",
+          s: "Shrivel/ Diminish/ Decrease/ Wither",
+          e: "Muscles can atrophy quickly if they are not used for a long time.",
+        },
+        {
+          n: 67,
+          w: "Attest",
+          b: "প্রত্যায়ন করা / সাক্ষ্য দেওয়া",
+          s: "Testify/ Certify/ Confirm",
+          e: "The documents were signed and attested by a government official.",
+        },
+        {
+          n: 68,
+          w: "Attribute",
+          b: "বৈশিষ্ট্য / গুণ / আরোপ করা",
+          s: "Ascribe/ Impute/ Epithet/ Trait",
+          e: "His success can be attributed to his years of hard work and dedication.",
+        },
+        {
+          n: 69,
+          w: "Audacity",
+          b: "সাহস / দুঃসাহস",
+          s: "Fearless daring/ Fearlessness/ Intrepidity/ Courage",
+          e: "She had the audacity to challenge the manager's decision in front of everyone.",
+        },
+        {
+          n: 70,
+          w: "Augment",
+          b: "বৃদ্ধি করা / বাড়ানো",
+          s: "Grow/ Increase/ Amplify",
+          e: "He took a part-time job to augment his income.",
+        },
+        {
+          n: 71,
+          w: "Augury",
+          b: "পূর্বলক্ষণ / ভবিষ্যদ্বাণী",
+          s: "Foretoken/ Predication/ Omen",
+          e: "The dark clouds were taken as an augury of the coming storm.",
+        },
+        {
+          n: 72,
+          w: "Auspicious",
+          b: "মঙ্গলজনক / শুভ",
+          s: "Fortunate/ Propitious/ Promising/ Hopeful",
+          e: "It was an auspicious day to begin the new business venture.",
+        },
+        {
+          n: 73,
+          w: "Austerity",
+          b: "মিতব্যায়িতা / কৃচ্ছ্রতা",
+          s: "Thrift/ Parsimony/ Frugality",
+          e: "The government introduced austerity measures to reduce the national debt.",
+        },
+        {
+          n: 74,
+          w: "Avarice",
+          b: "লোভ / অর্থলালসা",
+          s: "Greed/ Acquisitiveness/ Cupidity/ Covetousness",
+          e: "His avarice led him to cheat his own business partners for money.",
+        },
+        {
+          n: 75,
+          w: "Averse",
+          b: "বিরুদ্ধ / অনিচ্ছুক",
+          s: "Strongly opposed/ Loathe/ Abhor",
+          e: "She is averse to taking any risks in her personal or professional life.",
+        },
+        {
+          n: 76,
+          w: "Axiom",
+          b: "স্বতঃসিদ্ধ সত্য / নীতিবাক্য",
+          s: "Proverb/ Maxim/ Saying/ Adage",
+          e: "It is an axiom in science that every action has an equal and opposite reaction.",
+        },
+        {
+          n: 77,
+          w: "Baleful",
+          b: "হুমকিপূর্ণ / অশুভ",
+          s: "Menacing/ Threatening/ Ominous",
+          e: "He cast a baleful glance at his rival across the room.",
+        },
+        {
+          n: 78,
+          w: "Balked",
+          b: "দ্বিধা করা / পিছিয়ে যাওয়া",
+          s: "Hesitated/ Jibbed/ Wavered/ Waffled",
+          e: "The horse balked at the last jump and threw the rider off.",
+        },
+        {
+          n: 79,
+          w: "Banality",
+          b: "গতানুগতিকতা / সাধারণত্ব",
+          s: "Triteness/ Vapidity/ Staleness/ Unimaginativeness",
+          e: "His speech was full of banality — everyone had heard those ideas before.",
+        },
+        {
+          n: 80,
+          w: "Banter",
+          b: "রসিকতা / হালকা কৌতুক",
+          s: "Joke/ Jest/ Quip/ Satire/ Pun",
+          e: "The two friends exchanged playful banter all through the evening.",
+        },
+        {
+          n: 81,
+          w: "Batter",
+          b: "আঘাতে জর্জরিত করা",
+          s: "Pummel/ Pound/ Buffet/ Thrash/ Clobber",
+          e: "The storm battered the coast, destroying several fishing boats.",
+        },
+        {
+          n: 82,
+          w: "Beating about the bush",
+          b: "ঘুরিয়ে পেঁচিয়ে বলা / মূল কথা এড়ানো",
+          s: "Paltering/ Fibbing/ Equivocating/ Tergiversating",
+          e: "Stop beating about the bush and tell me exactly what happened.",
+        },
+        {
+          n: 83,
+          w: "Beckoning",
+          b: "ইশারা করে ডাকা / হাতছানি দেওয়া",
+          s: "Gesture/ Signal/ Summon",
+          e: "She stood at the door, beckoning her children inside for dinner.",
+        },
+        {
+          n: 84,
+          w: "Bedlam",
+          b: "পাগলামি / হৈচৈ / বিশৃঙ্খলা",
+          s: "Pandemonium/ Lunatic asylum/ Mayhem",
+          e: "When the fire alarm went off, the school turned into complete bedlam.",
+        },
+        {
+          n: 85,
+          w: "Bedraggled",
+          b: "ময়লা বা কলঙ্কিত / এলোমেলো",
+          s: "Dishevelled/ Disordered/ Untidy/ Unkempt",
+          e: "The bedraggled traveller arrived at the inn after walking in the rain.",
+        },
+        {
+          n: 86,
+          w: "Behest",
+          b: "আদেশ / নির্দেশ",
+          s: "Command/ Decree/ Injunction",
+          e: "The soldiers acted at the behest of their commanding officer.",
+        },
+        {
+          n: 87,
+          w: "Behold",
+          b: "মনোযোগ দিয়ে দেখা / অবাক হয়ে দেখা",
+          s: "See with attention/ Observe/ Witness",
+          e: "Behold the magnificent sunrise from the top of the mountain!",
+        },
+        {
+          n: 88,
+          w: "Bellicose",
+          b: "যুদ্ধবাজ / আক্রমণাত্মক",
+          s: "Belligerent/ Combative/ Aggressive",
+          e: "The bellicose nation kept threatening its neighbours with military action.",
+        },
+        {
+          n: 89,
+          w: "Bemoaned",
+          b: "আক্ষেপ করা / বিলাপ করা",
+          s: "Regret strongly/ Deplored/ Lamented/ Mourned",
+          e: "The farmers bemoaned the loss of their crops due to the floods.",
+        },
+        {
+          n: 90,
+          w: "Benediction",
+          b: "আশীর্বাদ / পবিত্র প্রার্থনা",
+          s: "Blessing/ Ceremonial prayer/ Invocation",
+          e: "The priest offered a benediction at the end of the Sunday service.",
+        },
+        {
+          n: 91,
+          w: "Benign",
+          b: "নিরীহ / নিরুপদ্রব / ভালো",
+          s: "Harmless/ Non-malignant/ Benignant",
+          e: "The doctor confirmed that the tumour was benign and not cancerous.",
+        },
+        {
+          n: 92,
+          w: "Beseech",
+          b: "মিনতি করা / কাতরভাবে অনুরোধ করা",
+          s: "Implore/ Solicit/ Plead With/ Exhort",
+          e: "She beseeched the judge to show mercy to her young son.",
+        },
+        {
+          n: 93,
+          w: "Betrothed",
+          b: "বাগদত্তা / বাগদান করা ব্যক্তি",
+          s: "The person to whom one is engaged/ Fiancé",
+          e: "The betrothed couple smiled at each other during the engagement ceremony.",
+        },
+        {
+          n: 94,
+          w: "Bicameral",
+          b: "দ্বিকক্ষ / দুই কক্ষবিশিষ্ট",
+          s: "Two-Chambered/ Dual-chamber",
+          e: "Bangladesh has a unicameral parliament, while many countries have a bicameral system.",
+        },
+        {
+          n: 95,
+          w: "Bigotry",
+          b: "ধর্মান্ধতা / গোঁড়ামি",
+          s: "Dogmatism/ Zealotry/ Intolerance",
+          e: "Bigotry and racial discrimination have no place in a just society.",
+        },
+        {
+          n: 96,
+          w: "Bizarre",
+          b: "উদ্ভট / অদ্ভুত",
+          s: "Strange/ Peculiar/ Eccentric/ Gonzo",
+          e: "Everyone was confused by his bizarre decision to quit his well-paying job.",
+        },
+        {
+          n: 97,
+          w: "Blatant",
+          b: "অশোভন / নির্লজ্জ / প্রকাশ্য",
+          s: "Uncouth/ Unashamed/ Flagrant",
+          e: "It was a blatant lie and everyone in the room could see through it.",
+        },
+        {
+          n: 98,
+          w: "Bleak",
+          b: "বিষণ্ণ / নিরানন্দ / বন্ধ্যা",
+          s: "Barren/ Somber/ Dismal/ Unpleasant",
+          e: "The future looked bleak for the family after they lost everything in the flood.",
+        },
+        {
+          n: 99,
+          w: "Blithe",
+          b: "অযত্নশীল / উদাসীন / নিশ্চিন্ত",
+          s: "Unserious/ Unconcerned/ Carefree",
+          e: "She had a blithe disregard for the dangers involved in her risky adventure.",
+        },
+        {
+          n: 100,
+          w: "Boisterous",
+          b: "প্রাণবন্ত / উচ্ছ্বসিত / হইহই করা",
+          s: "Lively/ Animated/ Exuberant/ Rowdy/ Unruly",
+          e: "The boisterous children ran around the playground, laughing and shouting.",
+        },
+        {
+          n: 101,
+          w: "Bombastic",
+          b: "আড়ম্বরপূর্ণ / ফাঁকা বুলি",
+          s: "Pompous/ Blustering/ Turgid/ Declamatory",
+          e: "The politician's bombastic speech impressed no one and answered nothing.",
+        },
+        {
+          n: 102,
+          w: "Bondage",
+          b: "দাসত্ব / বন্ধন",
+          s: "Slavery/ Thraldom/ Captivity",
+          e: "Millions of people were kept in bondage during the era of the slave trade.",
+        },
+        {
+          n: 103,
+          w: "Bragged",
+          b: "বড়াই করা / গর্ব করা",
+          s: "Show off/ Boast/ Bluster",
+          e: "He bragged about his achievements at every social gathering he attended.",
+        },
+        {
+          n: 104,
+          w: "Brazen",
+          b: "নির্লজ্জ / বেপরোয়া",
+          s: "Bold and without shame/ Unashamed/ Unabashed",
+          e: "He made a brazen attempt to steal from the shop in broad daylight.",
+        },
+        {
+          n: 105,
+          w: "Breach",
+          b: "লঙ্ঘন / ভাঙন",
+          s: "Contravention/ Infringement/ Violation",
+          e: "Sharing client information with outsiders is a serious breach of privacy.",
+        },
+        {
+          n: 106,
+          w: "Brevity",
+          b: "সংক্ষিপ্ততা / সারসংক্ষেপ",
+          s: "Conciseness/ Succinctness/ Terseness",
+          e: "The keynote speaker was praised for the brevity and clarity of her talk.",
+        },
+        {
+          n: 107,
+          w: "Bridling at",
+          b: "রাগ বা ক্ষোভ দেখানো",
+          s: "Show anger or indignation/ Take offense",
+          e: "She was visibly bridling at the unfair criticism from her supervisor.",
+        },
+        {
+          n: 108,
+          w: "Brusque",
+          b: "অভদ্র / রূঢ় / তীক্ষ্ণ",
+          s: "Uncivilized/ Uncultured/ Bearish/ Curt",
+          e: "His brusque manner offended many of his new colleagues at the office.",
+        },
+        {
+          n: 109,
+          w: "Burly",
+          b: "বলিষ্ঠকায় / হৃষ্টপুষ্ট",
+          s: "Well-built/ Sturdy/ Brawny/ Strong/ Muscular",
+          e: "The burly security guard stood at the gate, arms crossed.",
+        },
+        {
+          n: 110,
+          w: "Burrow",
+          b: "আশ্রয়ের জন্য খনিত গর্ত",
+          s: "Tunnel/ Den/ Dig/ Hollow",
+          e: "The rabbit burrowed deep into the ground to escape from the fox.",
+        },
+        {
+          n: 111,
+          w: "Bystanders",
+          b: "দর্শক / প্রত্যক্ষদর্শী",
+          s: "Spectator/ Onlooker/ Observer",
+          e: "Several bystanders filmed the accident on their phones and uploaded it online.",
+        },
+        {
+          n: 112,
+          w: "Cacophonous",
+          b: "কর্কশ / বিশৃঙ্খল শব্দপূর্ণ",
+          s: "Raucous/ Jarring/ Discordant",
+          e: "The cacophonous noise of the construction site made it impossible to work.",
+        },
+        {
+          n: 113,
+          w: "Cajole",
+          b: "তোষামোদ করে রাজি করানো",
+          s: "Coax/ Palaver/ Inveigle/ Wheedle",
+          e: "He tried to cajole his mother into letting him stay up late.",
+        },
+        {
+          n: 114,
+          w: "Caldron",
+          b: "বড় হাঁড়ি / কড়াই",
+          s: "A very large pot used for boiling/ Saucepan",
+          e: "The witch stirred her mysterious potion in a large black caldron.",
+        },
+        {
+          n: 115,
+          w: "Callous",
+          b: "নির্বিকার / নিষ্ঠুর / পাষাণ",
+          s: "Stoic/ Indifferent/ Indurate/ Heartless",
+          e: "It was callous of him to ignore the injured man lying on the road.",
+        },
+        {
+          n: 116,
+          w: "Callow",
+          b: "অপরিপক্ক / অনভিজ্ঞ",
+          s: "Young and inexperienced/ Naive/ Immature",
+          e: "The callow intern had a lot to learn before he could work independently.",
+        },
+        {
+          n: 117,
+          w: "Candid",
+          b: "অকপট / সরল / খোলামেলা",
+          s: "Outspoken/ Forthright/ Blunt/ Frank",
+          e: "She gave a candid opinion about the flaws in the new project plan.",
+        },
+        {
+          n: 118,
+          w: "Capitulate",
+          b: "আত্মসমর্পণ করা / নতি স্বীকার করা",
+          s: "Surrender/ Give in/ Submit/ Yield",
+          e: "After weeks of pressure, the government finally capitulated to the protesters' demands.",
+        },
+        {
+          n: 119,
+          w: "Capricious",
+          b: "খামখেয়ালী / অস্থিরচিত্ত",
+          s: "Vagarious/ Whimsical/ Unpredictable",
+          e: "Her capricious nature made it difficult for anyone to predict her next move.",
+        },
+        {
+          n: 120,
+          w: "Captive",
+          b: "বন্দী / কারাবদ্ধ",
+          s: "Incarcerated/ Imprisoned/ Confined",
+          e: "The captive soldier was finally released after two years of imprisonment.",
+        },
+        {
+          n: 121,
+          w: "Carcass",
+          b: "পশুপাখির মৃতদেহ",
+          s: "Cadaver/ Corpse/ Remains",
+          e: "The vultures gathered around the carcass of the dead animal in the field.",
+        },
+        {
+          n: 122,
+          w: "Cardinal",
+          b: "অত্যাবশ্যক / মৌলিক",
+          s: "Indispensable/ Fundamental/ Essential",
+          e: "Honesty is a cardinal virtue in any professional relationship.",
+        },
+        {
+          n: 123,
+          w: "Careen",
+          b: "নিয়ন্ত্রণ হারিয়ে হাঁটা বা চলা",
+          s: "Walk unsteadily/ Stagger/ Swag",
+          e: "The drunk man careened down the street, bumping into lampposts.",
+        },
+        {
+          n: 124,
+          w: "Cataclysm",
+          b: "বিপর্যয় / মহাদুর্যোগ",
+          s: "Tragedy/ Disaster/ Calamity/ Catastrophe",
+          e: "The earthquake was a cataclysm that destroyed thousands of homes overnight.",
+        },
+        {
+          n: 125,
+          w: "Catapult",
+          b: "গুলতি / হঠাৎ ছুঁড়ে দেওয়া",
+          s: "Sling/ Launch/ Hurl",
+          e: "His viral video catapulted him to fame within a single night.",
+        },
+        {
+          n: 126,
+          w: "Caveat",
+          b: "সতর্কতা / শর্ত / সীমাবদ্ধতা",
+          s: "Warning/ Caution/ Provision/ Stipulation",
+          e: "The doctor agreed to the treatment but added an important caveat about side effects.",
+        },
+        {
+          n: 127,
+          w: "Chasm",
+          b: "গভীর খাদ / গিরিখাদ",
+          s: "Abyss/ Canyon/ Ravine/ Gully/ Gulf",
+          e: "There is a growing chasm between the rich and the poor in modern society.",
+        },
+        {
+          n: 128,
+          w: "Chauvinism",
+          b: "উগ্র জাতীয়তাবাদ / অন্ধ আনুগত্য",
+          s: "Jingoism/ Extreme nationalism/ Bias",
+          e: "His chauvinism prevented him from accepting any criticism of his country.",
+        },
+        {
+          n: 129,
+          w: "Chicanery",
+          b: "প্রতারণা / ধোঁকাবাজি",
+          s: "Trickery/ Deception/ Deceit/ Evasion",
+          e: "The lawyer was disbarred for using chicanery to win the court case.",
+        },
+        {
+          n: 130,
+          w: "Circumvent",
+          b: "এড়িয়ে যাওয়া / ঘিরে ধরা",
+          s: "Encompass/ Surround/ Enclose/ Entangle",
+          e: "He found a clever way to circumvent the strict security protocols.",
+        },
+        {
+          n: 131,
+          w: "Clairvoyant",
+          b: "আলোকদৃষ্টিসম্পন্ন ব্যক্তি / ভবিষ্যৎদ্রষ্টা",
+          s: "Visionary/ Precognitive/ Psychic",
+          e: "The clairvoyant claimed she could predict future events with great accuracy.",
+        },
+        {
+          n: 132,
+          w: "Clamor",
+          b: "তুমুল কোলাহল / হট্টগোল",
+          s: "Uproar/ Disorder/ Tumult/ Din",
+          e: "There was a loud clamor in the crowd when the final goal was scored.",
+        },
+        {
+          n: 133,
+          w: "Clandestine",
+          b: "গোপন / অপ্রকাশ্য",
+          s: "Secret/ Arcane/ Surreptitious/ Covert",
+          e: "They held clandestine meetings in a hidden basement to plan their escape.",
+        },
+        {
+          n: 134,
+          w: "Cloister",
+          b: "নির্জনস্থান / আশ্রম",
+          s: "Monastery/ Convent/ Retreat/ Refuge",
+          e: "The monk spent his entire life in the cloister, studying and praying.",
+        },
+        {
+          n: 135,
+          w: "Clout",
+          b: "প্রভাব / ক্ষমতা / জোরালো আঘাত",
+          s: "Influence/ Power/ Heavy blow",
+          e: "He used his political clout to get the contract approved quickly.",
+        },
+        {
+          n: 136,
+          w: "Clumsy",
+          b: "আনাড়ি / অসড়",
+          s: "Awkward/ Cumbersome/ Inept/ Ungainly",
+          e: "The clumsy waiter spilled soup on the guest's expensive suit.",
+        },
+        {
+          n: 137,
+          w: "Clutter",
+          b: "এলোমেলো অবস্থা / অগোছালো",
+          s: "Mess up/ Disarrange/ Scattered/ Disorder",
+          e: "She spent the whole weekend clearing the clutter from her tiny room.",
+        },
+        {
+          n: 138,
+          w: "Coalesce",
+          b: "একত্রিত হওয়া / মিলিত হওয়া",
+          s: "Merge/ Unite/ Join Together/ Amalgamate",
+          e: "The small community groups coalesced into a powerful political movement.",
+        },
+        {
+          n: 139,
+          w: "Coercion",
+          b: "জবরদস্তি / বলপ্রয়োগ",
+          s: "Compulsion/ Force/ Pressure/ Duress",
+          e: "The confession was obtained through coercion and was later rejected by the court.",
+        },
+        {
+          n: 140,
+          w: "Cogent",
+          b: "স্পষ্ট / যুক্তিসঙ্গত / বিশ্বাসযোগ্য",
+          s: "Clear/ Logical/ Convincing/ Compelling",
+          e: "She made a cogent argument that convinced even her fiercest critics.",
+        },
+        {
+          n: 141,
+          w: "Cogitate",
+          b: "ধ্যান করা / গভীরভাবে চিন্তা করা",
+          s: "Contemplate/ Mediate/ Reflect/ Ponder",
+          e: "He sat quietly and cogitated on the difficult problem for several hours.",
+        },
+        {
+          n: 142,
+          w: "Cognizant",
+          b: "সচেতন / অবগত / জানা",
+          s: "Aware/ Conscious/ Informed",
+          e: "She was fully cognizant of the risks before she signed the agreement.",
+        },
+        {
+          n: 143,
+          w: "Coherence",
+          b: "সামঞ্জস্য / সংগতি / যুক্তিসঙ্গততা",
+          s: "The quality of being logical and consistent/ Cohesion/ Accord",
+          e: "The coherence of the essay impressed the examiner greatly.",
+        },
+        {
+          n: 144,
+          w: "Cohort",
+          b: "সামরিক দল / গোষ্ঠী / সঙ্গী",
+          s: "Military Unit/ Group/ Band",
+          e: "The researcher studied a cohort of 500 patients over five years.",
+        },
+        {
+          n: 145,
+          w: "Colloquial",
+          b: "অনানুষ্ঠানিক / কথ্যভাষার",
+          s: "Informal/ Conventional/ Unofficial",
+          e: "The essay was written in colloquial language, which was not acceptable in academia.",
+        },
+        {
+          n: 146,
+          w: "Collusion",
+          b: "গোপন চুক্তি / ষড়যন্ত্র",
+          s: "Connivance/ Conspiracy/ Secret deal",
+          e: "The two companies were found guilty of collusion to fix prices.",
+        },
+        {
+          n: 147,
+          w: "Colossal",
+          b: "বিশাল / বিরাট / অতিকায়",
+          s: "Stupendous/ Prodigious/ Gigantic/ Mammoth",
+          e: "Building that dam was a colossal undertaking that took over ten years.",
+        },
+        {
+          n: 148,
+          w: "Comestible",
+          b: "খাওয়ার উপযুক্ত / ভক্ষ্য",
+          s: "Edible/ Esculent/ Pabulum",
+          e: "The expedition team carried enough comestibles for three weeks in the jungle.",
+        },
+        {
+          n: 149,
+          w: "Commensurate",
+          b: "সমানুপাতিক / সমতুল্য",
+          s: "Equal/ Equivalent/ Proportionate",
+          e: "His salary should be commensurate with his level of experience and skill.",
+        },
+        {
+          n: 150,
+          w: "Commodious",
+          b: "সুপরিসর / প্রশস্ত",
+          s: "Convenient/ Capacious/ Spacious",
+          e: "The new office was commodious enough to accommodate the entire team.",
+        },
+        {
+          n: 151,
+          w: "Compatriot",
+          b: "একই দেশের অধিবাসী / স্বদেশী",
+          s: "Countryman/ Fellow citizen/ Compatriot",
+          e: "He was cheered on by his compatriots during the Olympic games.",
+        },
+        {
+          n: 152,
+          w: "Compendium",
+          b: "সারসংক্ষেপ / সংকলন",
+          s: "Summary/ Digest/ Synopsis/ Abridgment",
+          e: "The teacher handed out a compendium of key facts for the exam revision.",
+        },
+        {
+          n: 153,
+          w: "Competence",
+          b: "সামর্থ্য / যোগ্যতা",
+          s: "Capability/ Proficiency/ Ability/ Skill",
+          e: "His competence in coding was evident from the quality of his projects.",
+        },
+        {
+          n: 154,
+          w: "Complaisant",
+          b: "অন্যের জন্য সানন্দে কিছু করতে ইচ্ছুক",
+          s: "Showing cheerful willingness to do favours/ Obliging",
+          e: "The complaisant assistant always completed extra tasks without complaining.",
+        },
+        {
+          n: 155,
+          w: "Compulsion",
+          b: "বাধ্যবাধকতা / জোর / তাড়না",
+          s: "Coercion/ Force/ Pressure/ Urge",
+          e: "She felt a strong compulsion to apologise even though it was not her fault.",
+        },
+        {
+          n: 156,
+          w: "Compunction",
+          b: "গভীর অনুতাপ / অনুশোচনা",
+          s: "Regret/ Remorse/ Guilt/ Penitence",
+          e: "He showed no compunction after lying to his best friend about the incident.",
+        },
+        {
+          n: 157,
+          w: "Conceit",
+          b: "দম্ভ / অহংকার / আত্মম্ভরিতা",
+          s: "Vanity/ Arrogance/ Self-importance",
+          e: "His conceit made it impossible for him to accept any criticism of his work.",
+        },
+        {
+          n: 158,
+          w: "Concerted",
+          b: "সমবেতভাবে অনুষ্ঠিত / সংঘবদ্ধ",
+          s: "Combined/ Joint/ Coordinated",
+          e: "The volunteers made a concerted effort to clean up the polluted river.",
+        },
+        {
+          n: 159,
+          w: "Conciliatory",
+          b: "মীমাংসামূলক / আপোষমুখী",
+          s: "Compromising/ Pacifying/ Appeasing",
+          e: "The manager took a conciliatory tone to calm down the angry employees.",
+        },
+        {
+          n: 160,
+          w: "Concur",
+          b: "একমত হওয়া / সম্মত হওয়া",
+          s: "Agree/ Accord/ Concord/ Consent",
+          e: "All members of the committee concurred that immediate action was needed.",
+        },
+        {
+          n: 161,
+          w: "Congeal",
+          b: "জমাট বাঁধা / জমে যাওয়া",
+          s: "Clot/ Jell/ Solidify/ Harden",
+          e: "The cooking oil congealed at the bottom of the pan after it cooled down.",
+        },
+        {
+          n: 162,
+          w: "Conjure Up",
+          b: "মিনতি করা / মন্ত্র দ্বারা ডাকা / কল্পনায় আনা",
+          s: "Summon/ Invoke/ Evoke",
+          e: "The old photograph conjured up memories of his childhood in the village.",
+        },
+        {
+          n: 163,
+          w: "Connive",
+          b: "গোপনে ষড়যন্ত্র করা / চোখ বুজে সম্মতি দেওয়া",
+          s: "Conspiracy/ Intrigue/ Scheme/ Plot",
+          e: "The two officials connived to misuse public funds for personal gains.",
+        },
+        {
+          n: 164,
+          w: "Conscript",
+          b: "বাধ্যতামূলকভাবে সেনাদলে নিযুক্ত",
+          s: "Draft/ Recruit forcibly/ Enlist",
+          e: "During the war, thousands of young men were conscripted into the army.",
+        },
+        {
+          n: 165,
+          w: "Conspicuous",
+          b: "সুস্পষ্ট / প্রকট / সহজে দৃশ্যমান",
+          s: "Evident/ Prominent/ Distinguished/ Noticeable",
+          e: "Her bright red dress made her conspicuous in the crowd.",
+        },
+        {
+          n: 166,
+          w: "Consummate",
+          b: "সম্পূর্ণ করা / পরিপূর্ণ",
+          s: "Accomplished/ Perfect/ Complete",
+          e: "She is a consummate professional who handles every task with great skill.",
+        },
+        {
+          n: 167,
+          w: "Contagious",
+          b: "সংক্রামক / ছোঁয়াচে",
+          s: "Infectious/ Transmittable/ Spreadable",
+          e: "Laughter is contagious — when one person starts, everyone joins in.",
+        },
+        {
+          n: 168,
+          w: "Contiguous",
+          b: "পাশাপাশি / সংলগ্ন",
+          s: "Immediate/ Adjacent/ Neighbouring",
+          e: "The two contiguous houses were owned by the same family for generations.",
+        },
+        {
+          n: 169,
+          w: "Contours",
+          b: "সীমাসূচক রেখা / রূপরেখা",
+          s: "Outline/ Profile/ Shape/ Form",
+          e: "The map clearly showed the contours of the mountain range.",
+        },
+        {
+          n: 170,
+          w: "Contraption",
+          b: "বিশেষ কাজের যন্ত্র / গ্যাজেট",
+          s: "A device very useful for a particular job/ Gadget",
+          e: "He built a strange contraption to water his plants automatically when he was away.",
+        },
+        {
+          n: 171,
+          w: "Conundrum",
+          b: "ধাঁধা / রহস্য / জটিল সমস্যা",
+          s: "Riddle/ Puzzle/ Enigma",
+          e: "Finding affordable housing in the city remains a conundrum for young people.",
+        },
+        {
+          n: 172,
+          w: "Converge",
+          b: "একই বিন্দুতে মিলিত হওয়া",
+          s: "Meet/ Join/ Unite/ Come together",
+          e: "Thousands of protesters converged on the capital to demand justice.",
+        },
+        {
+          n: 173,
+          w: "Conversant",
+          b: "ওয়াকিবহাল / পরিচিত / জ্ঞাত",
+          s: "Well-informed/ Familiar/ Acquainted",
+          e: "She is fully conversant with all the latest developments in the field.",
+        },
+        {
+          n: 174,
+          w: "Corpulent",
+          b: "অতিরিক্ত মোটা / স্থূলকায়",
+          s: "Excessively fat/ Obese/ Weighty",
+          e: "The corpulent man struggled to climb the stairs and often felt breathless.",
+        },
+        {
+          n: 175,
+          w: "Corroded",
+          b: "রাসায়নিক ক্রিয়ায় ধীরে ধীরে ক্ষতিগ্রস্ত",
+          s: "Destroyed slowly by chemical action/ Eroded/ Worn away",
+          e: "The iron gate had corroded badly due to years of exposure to rain.",
+        },
+        {
+          n: 176,
+          w: "Corrosive",
+          b: "ক্ষয়কারক / ক্ষতিকর",
+          s: "Caustic/ Corroding/ Erosive/ Abrasive",
+          e: "Acid is a highly corrosive substance that can damage skin severely.",
+        },
+        {
+          n: 177,
+          w: "Countenance",
+          b: "সম্মতিসূচক মুখভঙ্গি / অনুমোদন",
+          s: "Endorsement/ Support/ Approval/ Expression",
+          e: "The principal would not countenance any form of cheating in the examination.",
+        },
+        {
+          n: 178,
+          w: "Coy",
+          b: "লাজুক / সংকোচপ্রবণ",
+          s: "Shy/ Bashful/ Blushing/ Demure",
+          e: "She gave a coy smile when asked if she had a crush on her classmate.",
+        },
+        {
+          n: 179,
+          w: "Craggy",
+          b: "বন্ধুর / পাহাড়ি / খুরখুরে",
+          s: "Mountainous/ Rugged/ Rocky",
+          e: "The craggy hillside made it difficult for the climbers to find safe footing.",
+        },
+        {
+          n: 180,
+          w: "Crass",
+          b: "অনুভূতিশূন্য / অমার্জিত",
+          s: "Insensitive/ Unrefined/ Gross/ Tasteless",
+          e: "His crass joke at the funeral shocked everyone present in the room.",
+        },
+        {
+          n: 181,
+          w: "Creed",
+          b: "ধর্মবিশ্বাস / মতবাদ / নীতি",
+          s: "Cult/ Belief/ Doctrine/ Faith",
+          e: "People of every creed and colour were welcome at the community centre.",
+        },
+        {
+          n: 182,
+          w: "Crestfallen",
+          b: "হতাশ / মনমরা / ভগ্নমনোরথ",
+          s: "Downhearted/ Downcast/ Despondent/ Disappointed",
+          e: "He looked crestfallen when he found out he had failed the exam again.",
+        },
+        {
+          n: 183,
+          w: "Crony",
+          b: "বেস্ট ফ্রেন্ড / বিশ্বস্ত পুরনো বন্ধু",
+          s: "Best friend/ Close companion/ Buddy",
+          e: "The minister appointed his cronies to important government positions.",
+        },
+        {
+          n: 184,
+          w: "Cronyism",
+          b: "বন্ধুবাৎসলতামূলক পক্ষপাত / পরিচিতজনকে সুবিধা দেওয়া",
+          s: "Favouritism/ Nepotism/ Patronage",
+          e: "Cronyism in the organisation led to resentment among the hardworking employees.",
+        },
+        {
+          n: 185,
+          w: "Cud",
+          b: "জাবর কাটা / গভীর চিন্তার পুনরাবৃত্তি",
+          s: "Rumination/ Chewing the cud/ Musing",
+          e: "He sat alone, chewing his cud over the difficult decision he had to make.",
+        },
+        {
+          n: 186,
+          w: "Culling",
+          b: "বিভিন্ন উৎস থেকে বাছাই করা",
+          s: "Select from variety of sources/ Gather/ Collect",
+          e: "The editor spent days culling the best articles from thousands of submissions.",
+        },
+        {
+          n: 187,
+          w: "Culminate",
+          b: "সর্বোচ্চ সীমায় পৌঁছানো / চূড়ান্ত পরিণতি লাভ করা",
+          s: "Capstone/ Climax/ Pinnacle/ Peak",
+          e: "Years of hard work finally culminated in a gold medal at the Olympics.",
+        },
+        {
+          n: 188,
+          w: "Culpable",
+          b: "নিন্দনীয় / দোষী",
+          s: "Blameworthy/ Censurable/ Reprehensible/ Guilty",
+          e: "The company was found culpable for the environmental damage caused by its factory.",
+        },
+        {
+          n: 189,
+          w: "Cumulative",
+          b: "ক্রমবর্ধমান / সঞ্চিত",
+          s: "Increasing/ Growing/ Aggregating/ Accumulative",
+          e: "The cumulative effect of stress over years eventually led to his illness.",
+        },
+        {
+          n: 190,
+          w: "Curtly",
+          b: "সংক্ষেপে / রূঢ়ভাবে",
+          s: "Shortly/ Briefly/ Abruptly/ Bluntly",
+          e: "She curtly replied 'no' and walked away without any further explanation.",
+        },
+        {
+          n: 191,
+          w: "Cusp",
+          b: "চূড়া / শীর্ষ / সন্ধিক্ষণ",
+          s: "Acme/ Apex/ Summit/ Capstone/ Knap",
+          e: "The country is on the cusp of a major technological revolution.",
+        },
+        {
+          n: 192,
+          w: "Dastard",
+          b: "কাপুরুষ / ভীরু / নির্লজ্জ কাপুরুষ",
+          s: "Coward/ Craven/ Poltroon",
+          e: "He was called a dastard for running away instead of defending his friends.",
+        },
+        {
+          n: 193,
+          w: "Dearth",
+          b: "অভাব / ঘাটতি / স্বল্পতা",
+          s: "Paucity/ Scarcity/ Shortage",
+          e: "There is a dearth of qualified teachers in many rural schools across the country.",
+        },
+        {
+          n: 194,
+          w: "Debacle",
+          b: "বিপর্যয় / ব্যর্থতা / পতন",
+          s: "Fiasco/ Thrashing/ Smack down",
+          e: "The product launch turned into a complete debacle due to poor planning.",
+        },
+        {
+          n: 195,
+          w: "Debase",
+          b: "হেয় করা / মূল্যহ্রাস করা",
+          s: "Denigrate/ Abase/ Degrade/ Demean",
+          e: "Such comments only debase the standard of public discourse in the country.",
+        },
+        {
+          n: 196,
+          w: "Debauchery",
+          b: "লাম্পট্য / অনৈতিকতা / অসংযম",
+          s: "Profligacy/ Lewdness/ Orgy/ Licentiousness",
+          e: "The ancient texts described the ruler's life as one of luxury and debauchery.",
+        },
+        {
+          n: 197,
+          w: "Debility",
+          b: "দুর্বলতা / অক্ষমতা",
+          s: "Weakness/ Frailty/ Feebleness/ Infirmity",
+          e: "After months in hospital, she suffered from extreme debility and could hardly walk.",
+        },
+        {
+          n: 198,
+          w: "Debonair",
+          b: "মার্জিত / আকর্ষণীয় / ভদ্র",
+          s: "Suave/ Urbane/ Affable/ Charming",
+          e: "The debonair actor charmed everyone with his wit and stylish appearance.",
+        },
+        {
+          n: 199,
+          w: "Decadent",
+          b: "অধঃপতিত / অবক্ষয়ী",
+          s: "Effete/ Degraded/ Downfallen/ Denigrate",
+          e: "Critics described the novel as a portrait of decadent upper-class society.",
+        },
+        {
+          n: 200,
+          w: "Deceitful",
+          b: "ধোঁকাবাজ / প্রতারক / ধূর্ত",
+          s: "Double-faced/ Fallacious/ Fraudulent/ Hypocritical",
+          e: "His deceitful behaviour ruined the trust everyone had placed in him.",
+        },
+        {
+          n: 201,
+          w: "Decipher",
+          b: "রহস্য উদ্ধার করা / পাঠোদ্ধার করা",
+          s: "Decode/ Decrypt/ Unravel/ Interpret",
+          e: "The archaeologist worked for years to decipher the ancient inscriptions.",
+        },
+        {
+          n: 202,
+          w: "Decorum",
+          b: "শালীনতা / ভদ্রতা / সৌজন্য",
+          s: "Modesty/ Civility/ Propriety/ Etiquette",
+          e: "The audience was expected to maintain proper decorum during the ceremony.",
+        },
+        {
+          n: 203,
+          w: "Decrepit",
+          b: "জরাজীর্ণ / ভগ্ন / ক্ষয়প্রাপ্ত",
+          s: "Worn-out/ Derelict/ Senile/ Dilapidated",
+          e: "The decrepit old building was finally demolished after standing empty for decades.",
+        },
+        {
+          n: 204,
+          w: "Defunct",
+          b: "বিলুপ্ত / অকার্যকর / মৃত",
+          s: "Vanished/ Annihilated/ Inoperative/ Extinct",
+          e: "The defunct airline had once been one of the most popular in the country.",
+        },
+        {
+          n: 205,
+          w: "Delectable",
+          b: "সুস্বাদু / আনন্দদায়ক / অসাধারণ",
+          s: "Delicious/ Scrumptious/ Luscious/ Yummy",
+          e: "The baker prepared a delectable spread of cakes for the wedding reception.",
+        },
+        {
+          n: 206,
+          w: "Deleterious",
+          b: "ক্ষতিকর / অপকারী / ক্ষতিসাধনকারী",
+          s: "Harmful/ Detrimental/ Injurious/ Pernicious",
+          e: "Smoking has a deleterious effect on the lungs and overall health.",
+        },
+        {
+          n: 207,
+          w: "Delicacy",
+          b: "মার্জিত স্বভাব / সূক্ষ্মতা / লজ্জাস্করতা",
+          s: "Refined nature/ Subtlety/ Tact",
+          e: "The situation required great delicacy to handle without hurting anyone's feelings.",
+        },
+        {
+          n: 208,
+          w: "Deluge",
+          b: "প্লাবন / বন্যা / অতিরিক্ত পরিমাণ",
+          s: "Flood/ Inundation/ Overflow",
+          e: "After the advertisement, the company received a deluge of applications.",
+        },
+        {
+          n: 209,
+          w: "Delving",
+          b: "খনন করা / গভীরভাবে অনুসন্ধান করা",
+          s: "Digging/ Burrowing/ Investigating",
+          e: "The journalist spent months delving into the financial records of the corporation.",
+        },
+        {
+          n: 210,
+          w: "Demagogue",
+          b: "বক্তৃতাবাজ / গণআন্দোলনের নেতা / উস্কানিদাতা",
+          s: "Rabble-rouser/ Agitator/ Political agitator",
+          e: "The demagogue used inflammatory speeches to turn the people against the government.",
+        },
+        {
+          n: 211,
+          w: "Demur",
+          b: "সংকোচ / আপত্তি / দ্বিধা",
+          s: "Doubt/ Dissent/ Hesitation/ Objection",
+          e: "She accepted the offer without demur, eager to start her new role.",
+        },
+        {
+          n: 212,
+          w: "Denizens",
+          b: "অধিবাসী / বাসিন্দা",
+          s: "Resident/ Inhabitant/ Dweller",
+          e: "The denizens of the small village welcomed the travellers warmly.",
+        },
+        {
+          n: 213,
+          w: "Deprecate",
+          b: "অনুমোদন না দেওয়া / নিন্দা করা",
+          s: "Reprove/ Disapprove of/ Criticise",
+          e: "The senior developer deprecated the old code to encourage the use of newer methods.",
+        },
+        {
+          n: 214,
+          w: "Derision",
+          b: "উপহাস / বিদ্রূপ / ব্যঙ্গ",
+          s: "Ridicule/ Mockery/ Jibe/ Scorn",
+          e: "His unconventional ideas were met with derision by the academic community.",
+        },
+        {
+          n: 215,
+          w: "Desecration",
+          b: "অপবিত্রকরণ / ধর্মনিন্দা",
+          s: "Blasphemous behaviour/ Blasphemy/ Profanation",
+          e: "The desecration of the ancient temple caused widespread outrage across the country.",
+        },
+        {
+          n: 216,
+          w: "Despise",
+          b: "অবজ্ঞা করা / ঘৃণা করা",
+          s: "Contemn/ Disdain/ Scorn/ Abhor",
+          e: "She despised hypocrisy above all other character flaws.",
+        },
+        {
+          n: 217,
+          w: "Destine",
+          b: "ধার্য করা / নির্ধারণ করা",
+          s: "Decree/ Intend/ Predestine/ Ordain",
+          e: "She felt she was destined to become a great musician from a young age.",
+        },
+        {
+          n: 218,
+          w: "Destitute",
+          b: "নিঃস্ব / দরিদ্র / অসহায়",
+          s: "Impecunious/ Impoverished/ Bankrupt/ Penniless",
+          e: "The refugees arrived at the camp completely destitute, with no food or money.",
+        },
+        {
+          n: 219,
+          w: "Desultory",
+          b: "উদ্দেশ্যহীন / এলোমেলো / অসংগঠিত",
+          s: "Purposeless/ Random/ Haphazard/ Unfocused",
+          e: "The desultory conversation jumped from topic to topic without any real focus.",
+        },
+        {
+          n: 220,
+          w: "Dichotomy",
+          b: "দুই বিপরীত দলে বিভক্তি / দ্বিধাবিভাজন",
+          s: "Divide into two opposing groups/ Split/ Bifurcation",
+          e: "There is often a dichotomy between what politicians say and what they do.",
+        },
+        {
+          n: 221,
+          w: "Didactic",
+          b: "উপদেশাত্মক / শিক্ষামূলক",
+          s: "Instructive/ Educational/ Moralistic",
+          e: "The novel had a didactic tone, clearly trying to teach moral lessons.",
+        },
+        {
+          n: 222,
+          w: "Diffidence",
+          b: "আত্মবিশ্বাসহীনতা / সংকোচ",
+          s: "Self-distrust/ Timidity/ Shyness/ Reticence",
+          e: "Her diffidence stopped her from speaking up even when she had the right answer.",
+        },
+        {
+          n: 223,
+          w: "Diligent",
+          b: "পরিশ্রমী / অধ্যবসায়ী",
+          s: "Industrious/ Hard-working/ Assiduous/ Conscientious",
+          e: "The diligent student reviewed her notes every evening without fail.",
+        },
+        {
+          n: 224,
+          w: "Din",
+          b: "একটানা উচ্চ শব্দ / কানফাটানো কোলাহল",
+          s: "Cacophony/ Noise/ Uproar/ Racket",
+          e: "The din of the traffic outside made it impossible to concentrate on studying.",
+        },
+        {
+          n: 225,
+          w: "Dirge",
+          b: "শোকসংগীত / মৃত্যু গান",
+          s: "A lament for the dead/ Elegy/ Requiem",
+          e: "The musicians played a mournful dirge at the soldier's funeral.",
+        },
+        {
+          n: 226,
+          w: "Discerning",
+          b: "বিচক্ষণ / পার্থক্যকারী",
+          s: "Distinguishing/ Perceptive/ Shrewd/ Astute",
+          e: "A discerning reader will notice the subtle humour hidden in the text.",
+        },
+        {
+          n: 227,
+          w: "Disconcerted",
+          b: "মানসিক শান্তি নষ্ট করা / বিভ্রান্ত",
+          s: "Unsettle/ Discomfit/ Confuse/ Disturb",
+          e: "She was visibly disconcerted when the interviewer asked an unexpected question.",
+        },
+        {
+          n: 228,
+          w: "Discretion",
+          b: "বিচক্ষণতা / সতর্কতা / বিবেচনাশক্তি",
+          s: "Circumspection/ Judicious/ Prudence/ Tact",
+          e: "He handled the sensitive information with absolute discretion.",
+        },
+        {
+          n: 229,
+          w: "Disenchantment",
+          b: "মোহভঙ্গ / হতাশা / বিভ্রম দূর হওয়া",
+          s: "Illusion destroyed/ Disappointment/ Disillusionment",
+          e: "There is growing disenchantment among young voters about the political system.",
+        },
+        {
+          n: 230,
+          w: "Dishevelled",
+          b: "অবিন্যস্ত / এলোমেলো / অগোছালো",
+          s: "Untidy/ Unkempt/ Disarranged/ Tousled",
+          e: "He arrived at work looking completely dishevelled after missing his alarm.",
+        },
+        {
+          n: 231,
+          w: "Disparate",
+          b: "ভিন্ন / অসদৃশ / সম্পূর্ণ আলাদা",
+          s: "Different/ Unlike/ Anomalous/ Dissimilar",
+          e: "The study brought together disparate groups with very different backgrounds.",
+        },
+        {
+          n: 232,
+          w: "Dispel",
+          b: "দূর করা / ছড়িয়ে দেওয়া / বিতাড়িত করা",
+          s: "Remove/ Disperse/ Dissipate/ Drive away",
+          e: "The doctor's explanation helped to dispel all fears about the minor procedure.",
+        },
+        {
+          n: 233,
+          w: "Dispense",
+          b: "বিতরণ করা / ভাগ করা",
+          s: "Distribute/ Allocate/ Give out/ Administer",
+          e: "The pharmacy dispenses medicines only to patients with a valid prescription.",
+        },
+        {
+          n: 234,
+          w: "Disseminate",
+          b: "ছড়িয়ে দেওয়া / প্রচার করা / প্রসারিত করা",
+          s: "Spread/ Broadcast/ Propagate/ Circulate",
+          e: "Social media has made it much easier to disseminate information rapidly.",
+        },
+        {
+          n: 235,
+          w: "Dissent",
+          b: "দ্বিমত / আপত্তি / ভিন্নমত",
+          s: "Differ/ Disagree/ Objection/ Opposition",
+          e: "One member of the committee expressed strong dissent against the proposed plan.",
+        },
+        {
+          n: 236,
+          w: "Dissonance",
+          b: "অসঙ্গতি / বিবাদ / অসামঞ্জস্য",
+          s: "Dissent/ Differ/ Disagree/ Discord",
+          e: "There was clear dissonance between the official report and the actual facts.",
+        },
+        {
+          n: 237,
+          w: "Dither",
+          b: "দ্বিধাগ্রস্ত হওয়া / অস্থির হওয়া",
+          s: "Indecisive behaviour/ Hesitate/ Waver/ Vacillate",
+          e: "She dithered for weeks before finally making a decision about the job offer.",
+        },
+        {
+          n: 238,
+          w: "Divulge",
+          b: "প্রকাশ করা / ফাঁস করা / উন্মোচন করা",
+          s: "Expose/ Disclose/ Reveal/ Uncover",
+          e: "The journalist refused to divulge the name of his confidential source.",
+        },
+        {
+          n: 239,
+          w: "Docile",
+          b: "বাধ্য / শিক্ষণীয় / সহজে পরিচালনাযোগ্য",
+          s: "Ready and willing to be taught/ Teachable/ Obedient",
+          e: "The docile horse was perfect for young children to learn horse riding.",
+        },
+        {
+          n: 240,
+          w: "Dogmatic",
+          b: "মতবাদী / গোঁড়া / একগুঁয়ে",
+          s: "Doctrine/ Dogmatic/ Opinionated/ Rigid",
+          e: "His dogmatic approach to teaching did not allow for any creative thinking.",
+        },
+        {
+          n: 241,
+          w: "Donning",
+          b: "পরিধান করা / পরে নেওয়া",
+          s: "Put on clothing/ Get dressed in/ Wearing",
+          e: "The firefighters spent extra time donning their protective gear before entering.",
+        },
+        {
+          n: 242,
+          w: "Dormant",
+          b: "সুপ্ত / নিষ্ক্রিয় / ঘুমন্ত",
+          s: "Latent/ Hibernating/ Inactive/ Sleeping",
+          e: "The volcano had been dormant for over a century before its sudden eruption.",
+        },
+        {
+          n: 243,
+          w: "Draconian",
+          b: "অত্যন্ত কঠোর / নির্মম",
+          s: "Harsh/ Severe/ Strict/ Extreme/ Oppressive",
+          e: "The government introduced draconian measures to control the spread of the disease.",
+        },
+        {
+          n: 244,
+          w: "Dreaded",
+          b: "ভীতিকর / আতঙ্কজনক",
+          s: "Fear/ Apprehension/ Trepidation/ Frightful",
+          e: "The annual tax audit was the most dreaded time of year for the business owner.",
+        },
+        {
+          n: 245,
+          w: "Drubbing",
+          b: "বারবার আঘাত করা / মার দেওয়া",
+          s: "Hit or beat repeatedly/ Trashing/ Trouncing",
+          e: "The home team received a heavy drubbing by the visiting champions.",
+        },
+        {
+          n: 246,
+          w: "Dulcet",
+          b: "সুমধুর / কানে মনোরম",
+          s: "Sweet/ Soothing/ Mellifluous/ Euphonious",
+          e: "Her dulcet voice made every song she sang sound absolutely magical.",
+        },
+        {
+          n: 247,
+          w: "Dupe",
+          b: "প্রতারিত ব্যক্তি / বোকা বানানো",
+          s: "Victim/ Put one across/ Deceive/ Fool",
+          e: "He was duped into paying twice the market price for the second-hand car.",
+        },
+        {
+          n: 248,
+          w: "Ebullience",
+          b: "উচ্ছ্বাস / প্রাণবন্ততা / আনন্দ",
+          s: "Cheerful/ Exuberance/ Buoyancy/ Merriment",
+          e: "Her ebullience was infectious and lifted the spirits of everyone around her.",
+        },
+        {
+          n: 249,
+          w: "Eccentric",
+          b: "অদ্ভুত স্বভাবের / বিচিত্র",
+          s: "Bizarre/ Unconventional/ Odd/ Quirky",
+          e: "The eccentric professor kept a pet parrot in his office at the university.",
+        },
+        {
+          n: 250,
+          w: "Edifice",
+          b: "অট্টালিকা / বিশাল ইমারত",
+          s: "Palace/ Large building/ Structure",
+          e: "The old colonial edifice stood proudly in the centre of the city.",
+        },
+        {
+          n: 251,
+          w: "Eerie",
+          b: "ভুতুড়ে / রহস্যময় / অদ্ভুত",
+          s: "Mysterious/ Uncanny/ Ghost-like/ Spooky",
+          e: "An eerie silence fell over the forest just before the thunderstorm began.",
+        },
+        {
+          n: 252,
+          w: "Effervescent",
+          b: "উচ্ছ্বসিত / উজ্জীবিত / বুদবুদময়",
+          s: "Marked by high spirits/ Scintillating/ Sparkling",
+          e: "The effervescent host made every guest feel completely at ease at the party.",
+        },
+        {
+          n: 253,
+          w: "Efficacious",
+          b: "কার্যকর / ফলপ্রসূ",
+          s: "Effective/ Effectual/ Successful/ Productive",
+          e: "The new drug proved efficacious in treating the previously incurable condition.",
+        },
+        {
+          n: 254,
+          w: "Egregious",
+          b: "জঘন্য / ভয়াবহ / চরম খারাপ",
+          s: "Shocking/ Appalling/ Terrible/ Awful/ Atrocious",
+          e: "The judge condemned the egregious violation of human rights in the strongest terms.",
+        },
+        {
+          n: 255,
+          w: "Elated",
+          b: "আনন্দিত / উৎফুল্ল / অত্যন্ত খুশি",
+          s: "Thrilled/ Delighted/ Ecstatic/ Euphoric/ Jubilant",
+          e: "She was elated when she discovered she had won the national writing prize.",
+        },
+        {
+          n: 256,
+          w: "Elongated",
+          b: "দীর্ঘায়িত / প্রসারিত",
+          s: "Elaborate/ Extended/ Expanded/ Stretched",
+          e: "The elongated shadows of the trees fell across the garden in the late afternoon.",
+        },
+        {
+          n: 257,
+          w: "Eloquent",
+          b: "বাকপটু / সুবক্তা / বাগ্মী",
+          s: "Articulate/ Persuasive/ Fluent/ Expressive",
+          e: "The eloquent speaker moved the entire audience to tears with her powerful speech.",
+        },
+        {
+          n: 258,
+          w: "Elusive",
+          b: "ধরা-ছোঁয়ার বাইরে / অধরা",
+          s: "Difficult to find or catch/ Evasive/ Slippery",
+          e: "Despite years of research, a cure for the disease remains elusive.",
+        },
+        {
+          n: 259,
+          w: "Emanate",
+          b: "নিঃসৃত হওয়া / উৎপন্ন হওয়া",
+          s: "Originate/ Stem/ Derive/ Spring",
+          e: "A pleasant aroma emanated from the kitchen as she prepared the meal.",
+        },
+        {
+          n: 260,
+          w: "Emancipating",
+          b: "মুক্ত করা / স্বাধীন করা",
+          s: "Freeing/ Relieving/ Redeeming/ Liberating",
+          e: "Education plays an emancipating role in the lives of oppressed communities.",
+        },
+        {
+          n: 261,
+          w: "Embellish",
+          b: "সাজানো / অলংকৃত করা / মাজিয়ে বলা",
+          s: "Decorate/ Adorn/ Ornament/ Beautify",
+          e: "She embellished the story slightly to make it more exciting for her listeners.",
+        },
+        {
+          n: 262,
+          w: "Emblem",
+          b: "প্রতীক / চিহ্ন / নিদর্শন",
+          s: "Symbol/ Representation/ Crest/ Badge",
+          e: "The dove is a universal emblem of peace and harmony.",
+        },
+        {
+          n: 263,
+          w: "Embody",
+          b: "বাস্তব রূপ দেওয়া / মূর্ত করা",
+          s: "Substantiate/ Personify/ Represent/ Incorporate",
+          e: "She embodies all the qualities of a great leader — courage, empathy and vision.",
+        },
+        {
+          n: 264,
+          w: "Emboldened",
+          b: "সাহসী করা / উৎসাহিত করা",
+          s: "Encouraged/ Motivated/ Inspired/ Empowered",
+          e: "Emboldened by his teacher's support, the shy student raised his hand to answer.",
+        },
+        {
+          n: 265,
+          w: "Emissary",
+          b: "দূত / প্রতিনিধি",
+          s: "Envoy/ Ambassador/ Messenger/ Representative",
+          e: "The president sent a special emissary to begin peace negotiations.",
+        },
+        {
+          n: 266,
+          w: "Emulate",
+          b: "অনুকরণ করা / নকল করা",
+          s: "Copy/ Imitate/ Follow/ Mirror",
+          e: "Young athletes often try to emulate the skills of their sporting heroes.",
+        },
+        {
+          n: 267,
+          w: "Encomium",
+          b: "আনুষ্ঠানিক প্রশংসা / স্তুতি",
+          s: "A formal expression of praise/ Eulogy/ Laudation",
+          e: "The retiring professor received a warm encomium from his colleagues.",
+        },
+        {
+          n: 268,
+          w: "Encroach",
+          b: "অতিক্রমণ করা / অনধিকার প্রবেশ",
+          s: "Infringe/ Intrude/ Trespass/ Overstep",
+          e: "The new building was found to encroach on the neighbouring property.",
+        },
+        {
+          n: 269,
+          w: "Endow",
+          b: "দান করা / প্রদান করা / দিয়ে দেওয়া",
+          s: "Gift/ Donation/ Bestow/ Grant",
+          e: "Nature endowed him with extraordinary musical talent from birth.",
+        },
+        {
+          n: 270,
+          w: "Engender",
+          b: "সৃষ্টি করা / কারণ হওয়া / জন্ম দেওয়া",
+          s: "Cause or give rise to a feeling/ Produce/ Generate",
+          e: "Poverty and inequality often engender feelings of resentment and frustration.",
+        },
+        {
+          n: 271,
+          w: "Ensconced",
+          b: "দৃঢ়ভাবে প্রতিষ্ঠিত করা / আরামে বসানো",
+          s: "Install/ Implant/ Settle/ Establish",
+          e: "By evening, the family was comfortably ensconced in their new home.",
+        },
+        {
+          n: 272,
+          w: "Enshrined",
+          b: "পবিত্র স্থানে রাখা / সংরক্ষিত করা",
+          s: "Place a revered object appropriately/ Preserve/ Immortalise",
+          e: "The right to free speech is enshrined in the constitution of the country.",
+        },
+        {
+          n: 273,
+          w: "Ensuing",
+          b: "পরবর্তী ঘটনা / পরিণামস্বরূপ ঘটা",
+          s: "Happen afterward/ Resulting/ Following/ Subsequent",
+          e: "In the ensuing chaos after the announcement, several people were injured.",
+        },
+        {
+          n: 274,
+          w: "Enumerated",
+          b: "গণনা করা / তালিকাভুক্ত করা",
+          s: "Counted/ Numbered/ Listed/ Itemised",
+          e: "The report enumerated all the problems faced by residents in the area.",
+        },
+        {
+          n: 275,
+          w: "Enviable",
+          b: "ঈর্ষণীয় / কাম্য / সকলে চায় এমন",
+          s: "Arousing envy/ Desirable/ Covetable",
+          e: "She has an enviable ability to remain calm under the most extreme pressure.",
+        },
+        {
+          n: 276,
+          w: "Epithet",
+          b: "বিশেষণ / উপাধি / বিশেষ নাম",
+          s: "Attribute/ Label/ Title/ Descriptor",
+          e: "Alexander earned the epithet 'the Great' through his extraordinary military campaigns.",
+        },
+        {
+          n: 277,
+          w: "Equivocal",
+          b: "দ্ব্যর্থবোধক / অস্পষ্ট / দুর্বোধ্য",
+          s: "Ambiguous/ Indefinite/ Vague/ Unclear",
+          e: "His equivocal answer left everyone uncertain about his actual intentions.",
+        },
+        {
+          n: 278,
+          w: "Errand",
+          b: "ছোট কাজে যাওয়া / ফরমাশ খাটা",
+          s: "Short trip/ Chore/ Task/ Mission",
+          e: "She sent her son on an errand to buy bread from the nearby shop.",
+        },
+        {
+          n: 279,
+          w: "Erudite",
+          b: "পণ্ডিত / জ্ঞানী / বিদ্বান",
+          s: "Learned/ Scholarly/ Educated/ Knowledgeable",
+          e: "The erudite professor spoke fluently about history, science and philosophy.",
+        },
+        {
+          n: 280,
+          w: "Eschew",
+          b: "বর্জন করা / এড়িয়ে চলা / দূরে থাকা",
+          s: "Abstain/ Refrain/ Shun/ Renounce",
+          e: "She chose to eschew social media in order to focus on her studies.",
+        },
+        {
+          n: 281,
+          w: "Espionage",
+          b: "গোয়েন্দাগিরি / নজরদারি / চরবৃত্তি",
+          s: "Spying/ Infiltration/ Eavesdropping/ Surveillance",
+          e: "He was arrested on charges of industrial espionage for stealing trade secrets.",
+        },
+        {
+          n: 282,
+          w: "Estrangement",
+          b: "বিচ্ছেদ / দূরত্ব / সম্পর্কচ্ছেদ",
+          s: "Separation from hostility/ Antagonism/ Disaffection",
+          e: "Years of misunderstandings led to a painful estrangement between the two brothers.",
+        },
+        {
+          n: 283,
+          w: "Eulogy",
+          b: "আনুষ্ঠানিক প্রশংসা / স্মরণ বক্তৃতা",
+          s: "A formal expression of praise/ Encomium/ Laudation",
+          e: "The friend delivered a moving eulogy at the funeral, recalling fond memories.",
+        },
+        {
+          n: 284,
+          w: "Evanescence",
+          b: "অন্তর্ধান / ক্ষণস্থায়িত্ব",
+          s: "Disappearance/ Vanishing/ Transience",
+          e: "The evanescence of youth is a theme explored in much classical poetry.",
+        },
+        {
+          n: 285,
+          w: "Exasperated",
+          b: "অতিরিক্ত বিরক্ত / ক্ষুব্ধ / রাগান্বিত",
+          s: "Greatly annoyed/ Infuriate/ Incense/ Irritate/ Rage",
+          e: "She was exasperated by the same mistake being repeated for the third time.",
+        },
+        {
+          n: 286,
+          w: "Excerpt",
+          b: "উদ্ধৃতাংশ / অনুচ্ছেদ",
+          s: "Take a short extract from a text/ Quote/ Extract/ Cite",
+          e: "The teacher read a brief excerpt from the novel to introduce the lesson.",
+        },
+        {
+          n: 287,
+          w: "Exchequer",
+          b: "জাতীয় কোষাগার / রাজস্ব বিভাগ",
+          s: "National treasury/ State funds",
+          e: "The Chancellor of the Exchequer presented the annual budget to parliament.",
+        },
+        {
+          n: 288,
+          w: "Exhortation",
+          b: "উৎসাহদান / অনুপ্রেরণা",
+          s: "Encouragement/ Persuasion/ Urging/ Appeal",
+          e: "The coach's exhortation before the match inspired the team to give their best.",
+        },
+        {
+          n: 289,
+          w: "Exonerate",
+          b: "নির্দোষ প্রমাণ করা / মুক্ত করা",
+          s: "Pronounce not guilty/ Acquit/ Exculpate",
+          e: "New DNA evidence completely exonerated the man who had been wrongly imprisoned.",
+        },
+        {
+          n: 290,
+          w: "Exorbitant",
+          b: "অতিরিক্ত / অস্বাভাবিক বেশি / অসম্ভব বেশি",
+          s: "Extortionate/ Excessively high/ Outrageous/ Steep",
+          e: "The hotel charged exorbitant prices during the festival season.",
+        },
+        {
+          n: 291,
+          w: "Exotic",
+          b: "বিদেশাগত / অ-দেশীয় / বিদেশি",
+          s: "Alien/ Non-native/ Foreign/ Unusual",
+          e: "The market sold a fascinating range of exotic fruits from across Asia.",
+        },
+        {
+          n: 292,
+          w: "Exquisite",
+          b: "অত্যন্ত সুন্দর / অনিন্দ্যসুন্দর",
+          s: "Extremely beautiful/ Elegant/ Fine/ Magnificent",
+          e: "The jeweller crafted an exquisite diamond necklace for the royal family.",
+        },
+        {
+          n: 293,
+          w: "Extenuate",
+          b: "হ্রাস করা / লঘু করা / ক্ষমার কারণ দেখানো",
+          s: "Reduce in force/ Mitigate/ Palliate/ Lessen",
+          e: "Nothing can extenuate the cruelty he showed towards the defenceless animals.",
+        },
+        {
+          n: 294,
+          w: "Extraneous",
+          b: "অপ্রাসঙ্গিক / অবান্তর / সম্পর্কহীন",
+          s: "Irrelevant/ Impertinent/ External/ Unrelated",
+          e: "The judge asked the lawyer to remove all extraneous details from the report.",
+        },
+        {
+          n: 295,
+          w: "Facetious",
+          b: "অনুচিত হাস্যরসের সাথে গুরু বিষয় নিয়ে ঠাট্টা",
+          s: "Treating serious issues with inappropriate humour/ Bantering/ Flippant",
+          e: "His facetious remarks during the serious meeting annoyed his senior colleagues.",
+        },
+        {
+          n: 296,
+          w: "Facilitate",
+          b: "সহজ করা / সহায়তা করা / এগিয়ে দেওয়া",
+          s: "Make smoother/ Alleviate/ Assuage/ Enable",
+          e: "Technology has greatly facilitated communication across the world.",
+        },
+        {
+          n: 297,
+          w: "Fallacy",
+          b: "ভুল ধারণা / মিথ্যা যুক্তি / ভ্রান্তি",
+          s: "Misconception/ Delusion/ Misapprehension/ Error",
+          e: "It is a common fallacy that success depends entirely on natural talent.",
+        },
+        {
+          n: 298,
+          w: "Fallible",
+          b: "ভুল করতে পারে এমন / অনিখুঁত",
+          s: "Likely to fail or make errors/ Frail/ Imperfect",
+          e: "Even the most experienced experts are fallible and can make mistakes.",
+        },
+        {
+          n: 299,
+          w: "Fastidious",
+          b: "খুঁতখুঁতে / পরিপাটিপ্রিয় / সূক্ষ্মদর্শী",
+          s: "Exacting/ Perfectionist/ Meticulous",
+          e: "She was so fastidious about her work that she checked every document twice.",
+        },
+        {
+          n: 300,
+          w: "Fatuous",
+          b: "মূর্খ / নির্বোধ / অর্থহীন",
+          s: "Silly and pointless/ Foolish/ Stupid/ Idiotic/ Vacuous",
+          e: "Everyone cringed at his fatuous attempt to impress the audience with bad jokes.",
+        },
+        {
+          n: 301,
+          w: "Fawning",
+          b: "তোষামুদে / চাটুকারিতা / মোসাহেবি",
+          s: "Obsequious/ Sycophantic/ Bootlicking",
+          e: "His fawning praise for the boss was transparent to everyone in the office.",
+        },
+        {
+          n: 302,
+          w: "Feeble",
+          b: "দুর্বল / অশক্ত / দুর্বলচিত্ত",
+          s: "Weak/ Frail/ Sapless/ Fragile",
+          e: "The old man's feeble voice could barely be heard across the small room.",
+        },
+        {
+          n: 303,
+          w: "Ferment",
+          b: "উত্তেজিত করা / গাঁজানো / অস্থির করা",
+          s: "Agitation/ Stir up/ Excite/ Unrest",
+          e: "The revolutionary ideas began to ferment unrest among the working classes.",
+        },
+        {
+          n: 304,
+          w: "Fervent",
+          b: "আবেগপ্রবণ / উৎসাহী / গভীর বিশ্বাসী",
+          s: "Having a passionate emotion/ Ardent/ Fervid/ Impassioned",
+          e: "She is a fervent believer in the power of education to change lives.",
+        },
+        {
+          n: 305,
+          w: "Fervour",
+          b: "উৎসাহ / আবেগ / তীব্র অনুভূতি",
+          s: "Passion/ Zeal/ Excitation/ Ardour",
+          e: "The crowd cheered with great fervour as their team scored the winning goal.",
+        },
+        {
+          n: 306,
+          w: "Feverish",
+          b: "তীব্র আবেগপূর্ণ / জ্বরগ্রস্ত / উত্তেজিত",
+          s: "Marked by intense agitation or emotion/ Frantic",
+          e: "There was feverish activity in the office as the deadline drew near.",
+        },
+        {
+          n: 307,
+          w: "Fickle",
+          b: "অস্থিরচিত্ত / চঞ্চল / দোদুল্যমান",
+          s: "Changing Frequently/ Erratic/ Volatile/ Capricious",
+          e: "The fickle weather made it impossible to plan an outdoor event with confidence.",
+        },
+        {
+          n: 308,
+          w: "Fictitious",
+          b: "কাল্পনিক / মিথ্যা / বানোয়াট",
+          s: "Not real or true/ Imaginary/ Fabricated",
+          e: "He gave a fictitious address on the application form to conceal his identity.",
+        },
+        {
+          n: 309,
+          w: "Fiery",
+          b: "উগ্র / তেজস্বী / আগুনের মতো",
+          s: "Characterized by intense emotion/ Ardent/ Fervent/ Passionate",
+          e: "The fiery debate in parliament lasted well into the early hours of the morning.",
+        },
+        {
+          n: 310,
+          w: "Figment",
+          b: "কল্পনাপ্রসূত ধারণা / মনগড়া বিষয়",
+          s: "A contrived or fantastic idea/ Fantasy/ Invention",
+          e: "The ghost was merely a figment of his overactive imagination.",
+        },
+        {
+          n: 311,
+          w: "Fissure",
+          b: "ফাটল / বিভক্তি / চিড়",
+          s: "Crack/ Cleft/ Split/ Crevice",
+          e: "A fissure in the earth appeared after the powerful earthquake struck the region.",
+        },
+        {
+          n: 312,
+          w: "Flagrant",
+          b: "প্রকাশ্যে খারাপ / জঘন্য / স্পষ্ট অন্যায়",
+          s: "Something wrong/ Immoral/ Offensive/ Blatant",
+          e: "It was a flagrant abuse of power that shocked the entire nation.",
+        },
+        {
+          n: 313,
+          w: "Flamboyant",
+          b: "জমকালো বা লোক দেখানো / চোখ ধাঁধানো",
+          s: "Magnificent/ Ostentatious/ Splendid/ Showy",
+          e: "The flamboyant fashion designer arrived wearing a bright orange coat and hat.",
+        },
+        {
+          n: 314,
+          w: "Flaunt",
+          b: "গর্বের সাথে প্রদর্শন করা / দেখিয়ে বেড়ানো",
+          s: "Display something proudly/ Swank/ Show-off",
+          e: "He flaunted his new expensive car in front of all his old school friends.",
+        },
+        {
+          n: 315,
+          w: "Fledgling",
+          b: "অনভিজ্ঞ / নতুন / অল্পবয়সী",
+          s: "Callow/ Freshman/ Newbie/ Novice",
+          e: "The fledgling company showed great promise in its first year of operation.",
+        },
+        {
+          n: 316,
+          w: "Fleeced",
+          b: "অতিরিক্ত মূল্য আদায় করে ঠকানো",
+          s: "Overcharged/ Swindled/ Cheated/ Ripped off",
+          e: "The tourists were fleeced by local vendors who charged them triple the normal price.",
+        },
+        {
+          n: 317,
+          w: "Flicker",
+          b: "দ্রুত কাঁপা / পলকানো / দোলানো",
+          s: "Move back and forth rapidly/ Waver/ Flutter",
+          e: "The candle flickered in the breeze before finally going out.",
+        },
+        {
+          n: 318,
+          w: "Flog",
+          b: "বেত্রাঘাত করা / মারা / জোর করে বিক্রি করা",
+          s: "Lambaste/ Whip/ Beat/ Thrash",
+          e: "In the old days, soldiers were flogged for breaking the rules of discipline.",
+        },
+        {
+          n: 319,
+          w: "Flouting",
+          b: "প্রকাশ্যে নিয়ম অমান্য করা / অবজ্ঞা করা",
+          s: "Openly disregard a rule/ Defy/ Disobey/ Scoff",
+          e: "He was fined for flouting the traffic regulations in the city centre.",
+        },
+        {
+          n: 320,
+          w: "Flush",
+          b: "সম্পূর্ণ সমতল বা একই স্তরে / রক্তিম",
+          s: "Completely level or even with another surface/ Blushed/ Even",
+          e: "The shelf was flush with the wall, with no gap visible at all.",
+        },
+        {
+          n: 321,
+          w: "Fluttering",
+          b: "অস্থিরভাবে উড়া / পতপত করা / কাঁপা",
+          s: "Fly unsteadily/ Hover/ Tremble/ Quiver",
+          e: "Colourful banners were fluttering in the wind along the parade route.",
+        },
+        {
+          n: 322,
+          w: "Follies",
+          b: "মূর্খতা / নির্বুদ্ধিতা / নিরর্থক কাজ",
+          s: "Lack of good sense/ Foolishness/ Frivolity/ Imbecility",
+          e: "He deeply regretted the follies of his youth when he grew older and wiser.",
+        },
+        {
+          n: 323,
+          w: "Fomented",
+          b: "উত্তেজিত করা / প্ররোচনা দেওয়া / উসকানো",
+          s: "Agitated/ Stirred up/ Incited/ Provoked",
+          e: "The agitator fomented unrest among the workers by spreading false rumours.",
+        },
+        {
+          n: 324,
+          w: "Foremost",
+          b: "সবার উপরে / প্রথমত / প্রধান",
+          s: "Ranking above all others/ First of all/ Leading",
+          e: "She is considered the foremost expert in the field of marine biology.",
+        },
+        {
+          n: 325,
+          w: "Fornicate",
+          b: "বিবাহবহির্ভূত যৌনসম্পর্ক করা",
+          s: "Have sex outside marriage/ Adultery",
+          e: "In ancient texts, fornication was considered a serious moral transgression.",
+        },
+        {
+          n: 326,
+          w: "Frailty",
+          b: "দুর্বলতা / ভঙ্গুরতা / ক্ষীণতা",
+          s: "Condition of being weak and delicate/ Infirmity/ Debility",
+          e: "Despite his physical frailty, his mind remained sharp and clear in old age.",
+        },
+        {
+          n: 327,
+          w: "Fraternity",
+          b: "একই স্বার্থের মানুষের দল / ভ্রাতৃত্ব",
+          s: "Group sharing same interest/ Brotherhood/ Fellowship",
+          e: "There is a strong sense of fraternity among the members of the fire service.",
+        },
+        {
+          n: 328,
+          w: "Fraught",
+          b: "উদ্বিগ্ন / চিন্তিত / ভরপুর",
+          s: "Anxious/ Worried/ Stressed/ Upset/ Distraught",
+          e: "The negotiations were fraught with tension from start to finish.",
+        },
+        {
+          n: 329,
+          w: "Frenzied",
+          b: "বন্যভাবে উত্তেজিত / উন্মত্ত / পাগলপারা",
+          s: "Wildly excited or uncontrolled/ Frantic/ Frenetic",
+          e: "There was a frenzied rush to buy tickets when the concert was announced.",
+        },
+        {
+          n: 330,
+          w: "Fretful",
+          b: "বিরক্তি প্রকাশকারী / অস্থির / খিটখিটে",
+          s: "Expressing irritation/ Distressed/ Peevish",
+          e: "The fretful child could not sleep and kept crying throughout the night.",
+        },
+        {
+          n: 331,
+          w: "Freudian",
+          b: "ফ্রয়েডের অনুসরণকারী / মনোবিশ্লেষণ সংক্রান্ত",
+          s: "Follower/ Acolyte/ Disciple of Freud",
+          e: "His slip of the tongue was seen as a classic Freudian mistake by the therapist.",
+        },
+        {
+          n: 332,
+          w: "Fringes",
+          b: "বাইরের সীমানা / প্রান্ত / কিনারা",
+          s: "The outside boundary/ Peripheries/ Outskirts/ Edges",
+          e: "The extremist group operated on the fringes of mainstream political society.",
+        },
+        {
+          n: 333,
+          w: "Frontier",
+          b: "দুই দেশের সীমান্ত / সীমারেখা",
+          s: "Border separating two countries/ Demarcation line",
+          e: "Space exploration remains one of the last great frontiers for human discovery.",
+        },
+        {
+          n: 334,
+          w: "Frugal",
+          b: "মিতব্যয়ী / কৃচ্ছ্রসাধী / কম খরচে চলা",
+          s: "Thrifty/ Economical/ Sparing/ Careful",
+          e: "Despite becoming wealthy, she remained frugal and never wasted a single penny.",
+        },
+        {
+          n: 335,
+          w: "Gallant",
+          b: "সাহসী / বীরত্বপূর্ণ / ভদ্র ও শিষ্ট",
+          s: "Brave/ Heroic/ Chivalrous/ Valiant/ Intrepid",
+          e: "The gallant soldier risked his own life to save his injured comrade.",
+        },
+        {
+          n: 336,
+          w: "Gambit",
+          b: "সুবিধা পেতে কৌশল / পদক্ষেপ",
+          s: "A tactic to gain advantage/ Ploy/ Stratagem/ Manoeuvre",
+          e: "His opening gambit in the negotiation was to offer a surprisingly low price.",
+        },
+        {
+          n: 337,
+          w: "Gamut",
+          b: "সম্পূর্ণ পরিসর / ব্যাপ্তি",
+          s: "A Complete Extent or Range/ Ambit/ Orbit",
+          e: "The film explored the full gamut of human emotions from joy to despair.",
+        },
+        {
+          n: 338,
+          w: "Gargantuan",
+          b: "বিশাল / বিরাট / দৈত্যাকার",
+          s: "Huge and bulky/ Jumbo/ Gigantic/ Colossal/ Mammoth",
+          e: "The project required a gargantuan amount of money and years of effort.",
+        },
+        {
+          n: 339,
+          w: "Garnered",
+          b: "সংগ্রহ করা / জমা করা / অর্জন করা",
+          s: "Gather or collect something especially information/ Accumulate/ Amass",
+          e: "The documentary garnered widespread praise from both critics and audiences.",
+        },
+        {
+          n: 340,
+          w: "Garrulity",
+          b: "বাচালতা / অতিরিক্ত কথা বলার স্বভাব",
+          s: "Talkativeness/ Loquacity/ Verbosity",
+          e: "Her garrulity at meetings often delayed important decisions for the team.",
+        },
+        {
+          n: 341,
+          w: "Garrulous",
+          b: "বাচাল / কথাবলিয়ে / অতিরিক্ত কথা বলা",
+          s: "Talkative/ Loquacious/ Verbose",
+          e: "The garrulous neighbour would talk for hours if you let him in the door.",
+        },
+        {
+          n: 342,
+          w: "Gaucheness",
+          b: "অভদ্র আচরণ / স্থূলতা / অপরিশীলতা",
+          s: "An impolite manner/ Crudity/ Tactlessness",
+          e: "His gaucheness at the formal dinner embarrassed everyone at the table.",
+        },
+        {
+          n: 343,
+          w: "Gawk",
+          b: "আহাম্মকের মতো তাকিয়ে থাকা / হাঁ করে দেখা",
+          s: "Stare foolishly/ Clod/ Oaf/ Gape",
+          e: "The tourists couldn't help but gawk at the magnificent palace in awe.",
+        },
+      ];
+
+      let currentIndex = 0;
+      let order = [...Array(words.length).keys()];
+      let quizScore = 0,
+        quizTotal = 0,
+        quizAnswered = false;
+      let currentQuizWord = null;
+
+      function switchMode(mode) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t, i) => t.classList.remove("active"));
+        document.getElementById("flashcard-section").style.display = "none";
+        document.getElementById("list-section").style.display = "none";
+        document.getElementById("quiz-section").style.display = "none";
+        const tabs = document.querySelectorAll(".tab");
+        if (mode === "flashcard") {
+          tabs[0].classList.add("active");
+          document.getElementById("flashcard-section").style.display = "flex";
+          renderCard();
+        }
+        if (mode === "list") {
+          tabs[1].classList.add("active");
+          document.getElementById("list-section").style.display = "block";
+          renderList();
+        }
+        if (mode === "quiz") {
+          tabs[2].classList.add("active");
+          document.getElementById("quiz-section").style.display = "flex";
+          renderQuiz();
+        }
+      }
+
+      function renderCard() {
+        const w = words[order[currentIndex]];
+        document.getElementById("cf-num").textContent = "#" + w.n;
+        document.getElementById("cf-word").textContent = w.w;
+        document.getElementById("cb-num").textContent = "#" + w.n + " — " + w.w;
+        document.getElementById("cb-bengali").textContent = "🇧🇩 " + w.b;
+        document.getElementById("cb-synonyms").textContent = "🔗 " + w.s;
+        document.getElementById("cb-sentence").textContent = '"' + w.e + '"';
+        document.getElementById("card-wrap").classList.remove("flipped");
+        document.getElementById("fc-counter").textContent =
+          "Card " + (currentIndex + 1) + " of " + words.length;
+        document.getElementById("fc-seen").textContent = currentIndex + 1;
+        document.getElementById("fc-remaining").textContent =
+          words.length - currentIndex - 1;
+        const pct = (((currentIndex + 1) / words.length) * 100).toFixed(1);
+        document.getElementById("progress-fill").style.width = pct + "%";
+      }
+
+      function flipCard() {
+        document.getElementById("card-wrap").classList.toggle("flipped");
+      }
+      function nextCard() {
+        if (currentIndex < words.length - 1) {
+          currentIndex++;
+          renderCard();
+        }
+      }
+      function prevCard() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderCard();
+        }
+      }
+      function shuffleCards() {
+        for (let i = order.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [order[i], order[j]] = [order[j], order[i]];
+        }
+        currentIndex = 0;
+        renderCard();
+      }
+
+      function renderList() {
+        const q = document.getElementById("search-box").value.toLowerCase();
+        const sort = document.getElementById("sort-select").value;
+        let filtered = words.filter(
+          (w) =>
+            w.w.toLowerCase().includes(q) ||
+            w.b.includes(q) ||
+            w.s.toLowerCase().includes(q),
+        );
+        if (sort === "az") filtered.sort((a, b) => a.w.localeCompare(b.w));
+        if (sort === "za") filtered.sort((a, b) => b.w.localeCompare(a.w));
+        const grid = document.getElementById("word-grid");
+        const noRes = document.getElementById("no-result");
+        if (filtered.length === 0) {
+          grid.innerHTML = "";
+          noRes.style.display = "block";
+          return;
+        }
+        noRes.style.display = "none";
+        grid.innerHTML = filtered
+          .map(
+            (w) => `
+    <div class="word-card">
+      <div class="wc-top"><span class="wc-num">#${w.n}</span><span class="wc-word">${w.w}</span></div>
+      <div class="wc-bengali">${w.b}</div>
+      <div class="wc-synonyms">${w.s}</div>
+      <div class="wc-sentence">${w.e}</div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function filterWords() {
+        renderList();
+      }
+
+      function renderQuiz() {
+        const idx = Math.floor(Math.random() * words.length);
+        currentQuizWord = words[idx];
+        quizAnswered = false;
+        document.getElementById("quiz-q").textContent = currentQuizWord.w;
+        document.getElementById("quiz-sub").textContent =
+          "What is the Bengali meaning of this word?";
+        const wrong = [];
+        while (wrong.length < 3) {
+          const r = words[Math.floor(Math.random() * words.length)];
+          if (r.n !== currentQuizWord.n && !wrong.find((x) => x.n === r.n))
+            wrong.push(r);
+        }
+        const options = [currentQuizWord, ...wrong].sort(
+          () => Math.random() - 0.5,
+        );
+        document.getElementById("quiz-options").innerHTML = options
+          .map(
+            (o) =>
+              `<div class="quiz-opt" onclick="checkAnswer(this,'${o.n}')">${o.b}</div>`,
+          )
+          .join("");
+        document.getElementById("quiz-score").textContent =
+          quizTotal > 0 ? `Score: ${quizScore} / ${quizTotal}` : "";
+      }
+
+      function checkAnswer(el, nStr) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        quizTotal++;
+        const opts = document.querySelectorAll(".quiz-opt");
+        opts.forEach((o) => {
+          if (o.textContent === currentQuizWord.b) o.classList.add("correct");
+        });
+        if (nStr == currentQuizWord.n) {
+          el.classList.add("correct");
+          quizScore++;
+        } else {
+          el.classList.add("wrong");
+        }
+        document.getElementById("quiz-score").textContent =
+          `Score: ${quizScore} / ${quizTotal}`;
+      }
+
+      function nextQuiz() {
+        renderQuiz();
+      }
+      function resetQuiz() {
+        quizScore = 0;
+        quizTotal = 0;
+        quizAnswered = false;
+        renderQuiz();
+      }
+
+      window.onload = () => {
+        switchMode("flashcard");
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (
+          document.getElementById("flashcard-section").style.display !== "none"
+        ) {
+          if (e.key === "ArrowRight") nextCard();
+          if (e.key === "ArrowLeft") prevCard();
+          if (e.key === " ") {
+            e.preventDefault();
+            flipCard();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
